@@ -1,0 +1,19 @@
+{
+  "name": "site2---api-locale",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@astrodraw/astrochart": "^3.0.2",
+    "astrochart": "^0.0.1",
+    "circular-natal-horoscope-js": "^1.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.3"
+  }
+}
