@@ -19,8 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Menu/>
-        <br/>
+        <Menu />
+        <br />
+        <br />
         {/* <AstroChart /> */}
         {children}
       </body>
