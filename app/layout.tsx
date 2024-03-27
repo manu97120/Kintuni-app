@@ -23,6 +23,8 @@ export default function RootLayout({
         <br />
         <br />
         {/* <AstroChart /> */}
+        <br />
+        <br />
         {children}
       </body>
     </html>

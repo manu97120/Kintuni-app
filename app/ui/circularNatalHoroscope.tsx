@@ -60,5 +60,5 @@ const horoscope = new Horoscope({
 
 export default function CircularNatalHoroscope(){
 
-    return "CNH";
+    return "CNH ----++";
 }

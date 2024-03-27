@@ -1,4 +1,5 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
+import AstroChart from "@/app/ui/astroChart";
 
 export default function NatalChart() {
   const { year, month, day, hour, minute, latitude, longitude } = {
@@ -36,7 +37,17 @@ export default function NatalChart() {
 
   // Store the generated horoscope
   //lastHoroscope = horoscope;
-  console.log(horoscope);
-  const data = JSON.stringify(horoscope);
-  return data;
+  // console.log(horoscope);  
+  console.log("::: Natal Chart SERVER LOG :::");
+  console.log("Variable horoscope from natal chart moving on server side only log server can see");
+  
+  // const data = JSON.stringify(horoscope);
+
+  return (
+    <>
+    <AstroChart />
+    {/* {JSON.stringify(horoscope)} */}
+    {/* {data} */}
+    </>
+  );
 }
