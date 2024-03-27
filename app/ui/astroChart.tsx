@@ -3,7 +3,8 @@
 // works too but generate 500 internal server error
 
 import Chart from '@/app/lib/astroDraw'; 
-// Works but with minor effect to check on module import
+// Works but with minor effect to check on module import/export
+// Fixed in settings tsx file
 import { useEffect } from 'react';
 
 export default function AstroChart(){

@@ -317,5 +317,7 @@ const settings: Settings = {
   DEBUG: false
 }
 
-const default_settings = settings
-export default default_settings
+const default_settings = settings;
+export default default_settings;
+// Fix minor effect of module import
+export {default_settings as Settings}
