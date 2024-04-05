@@ -1,3 +1,3 @@
 export default function Home() {
-  return "Nzo";
+  return "Nzo - Homeland";
 }
