@@ -1,7 +1,8 @@
 'use client';
 
-import {Input} from "@nextui-org/react";
-import {SearchIcon} from "./SearchIcon";
+import {Input, Autocomplete, AutocompleteItem} from "@nextui-org/react";
+import {SearchIcon} from "./searchIcon";
+// import {animals} from "@/app/lib/data";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -22,6 +23,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     }
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
+    
   }, 400);
 
   return (
