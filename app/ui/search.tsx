@@ -17,9 +17,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
   
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set('query', term);
+      params.set('address', term);
     } else {
-      params.delete('query');
+      params.delete('address');
     }
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);

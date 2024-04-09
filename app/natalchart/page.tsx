@@ -1,6 +1,7 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import Search from "@/app/ui/search";
+
 // import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
 // import {animals} from "@/app/lib/data";
 // import { Suspense } from "react";
@@ -9,14 +10,24 @@ export default async function NatalChart({ // add aync cause of await data fetch
   searchParams
 }:{
   searchParams:{
-    query?: string
+    address?: string
   }
 }) {
   // declare and create query variable on condition statement
-  const query = searchParams?.query || "";
+  const address = searchParams?.address || "";
+  const url_rewrited = address.replace(/ /g, "+");
+  const session_token = crypto.randomUUID();
+
+  console.log(`::: url rewrited: ${url_rewrited}`);
+  console.log(`::: key= ${process.env.GOOGLE_MAPS_API_KEY}`);
+  console.log(`::: session token: ${session_token}`);
+  
+  
+  
   // This request should be refetched on every request.
   // Similar to `getServerSideProps`.
-  const dynamicData = await fetch(`https://...`, { cache: 'no-store' })
+  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
+  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address={}&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
 
   const { year, month, day, hour, minute, latitude, longitude } = {
     year: 2020,
@@ -62,8 +73,8 @@ export default async function NatalChart({ // add aync cause of await data fetch
   return (
     <>
     <Search placeholder="..."/>
-    {/* <h3>Query :</h3>
-    <p>{query}</p> */}
+    <h3>Address Query :</h3>
+    <p>{url_rewrited}</p>
     {/* <Autocomplete
       defaultItems={animals}
       label="Favorite Animal"
