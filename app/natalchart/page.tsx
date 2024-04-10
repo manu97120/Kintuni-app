@@ -1,9 +1,9 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import Search from "@/app/ui/search";
+import SearchBox from "@/app/ui/searchBox"
 
-// import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
-// import {animals} from "@/app/lib/data";
+
 // import { Suspense } from "react";
 
 export default async function NatalChart({ // add aync cause of await data fetching inside component
@@ -18,16 +18,21 @@ export default async function NatalChart({ // add aync cause of await data fetch
   const url_rewrited = address.replace(/ /g, "+");
   const session_token = crypto.randomUUID();
 
-  console.log(`::: url rewrited: ${url_rewrited}`);
-  console.log(`::: key= ${process.env.GOOGLE_MAPS_API_KEY}`);
-  console.log(`::: session token: ${session_token}`);
+  console.log(`::: url_rewrited = ${url_rewrited}`);
+  console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
+  console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
+  
+  console.log(`::: session_token = ${session_token}`);
   
   
   
   // This request should be refetched on every request.
   // Similar to `getServerSideProps`.
   // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
-  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address={}&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
+  // Fetch via GOOGLE MAP
+  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address={url_rewrited}&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
+  // Fetch via MAPBOX
+  // const resultSuggest = await fetch(`https://api.mapbox.com/search/searchbox/v1/suggest?q={url_rewrited}`, { cache: 'no-store' })
 
   const { year, month, day, hour, minute, latitude, longitude } = {
     year: 2020,
@@ -73,16 +78,9 @@ export default async function NatalChart({ // add aync cause of await data fetch
   return (
     <>
     <Search placeholder="..."/>
-    <h3>Address Query :</h3>
+    <h3>Url Query check:</h3>
     <p>{url_rewrited}</p>
-    {/* <Autocomplete
-      defaultItems={animals}
-      label="Favorite Animal"
-      placeholder="Search an animal"
-      className="max-w-xs"
-    >
-      {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
-    </Autocomplete> */}
+    <SearchBox />
     <br/>
     <AstroChart />
     {/* {JSON.stringify(horoscope)} */}

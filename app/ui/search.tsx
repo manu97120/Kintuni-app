@@ -2,17 +2,18 @@
 
 import {Input, Autocomplete, AutocompleteItem} from "@nextui-org/react";
 import {SearchIcon} from "./searchIcon";
-// import {animals} from "@/app/lib/data";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function Search({ placeholder }: { placeholder: string }) {
+  console.log(`>>> Search Client log`);
   
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
+  console.log(`>>> DebouncedCallback Client log`);
     console.log(`Searching location for terms :::: ${term}`);
   
     const params = new URLSearchParams(searchParams);
