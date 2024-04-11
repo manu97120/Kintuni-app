@@ -2,7 +2,7 @@ import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import Search from "@/app/ui/search";
 import SearchBox from "@/app/ui/searchBox"
-
+import NatalChartForm from "@/app/ui/natalChartSearch";
 
 // import { Suspense } from "react";
 
@@ -81,6 +81,7 @@ export default async function NatalChart({ // add aync cause of await data fetch
     <h3>Url Query check:</h3>
     <p>{url_rewrited}</p>
     <SearchBox />
+    <NatalChartForm />
     <br/>
     <AstroChart />
     {/* {JSON.stringify(horoscope)} */}

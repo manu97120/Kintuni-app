@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {Input, Autocomplete, AutocompleteItem} from "@nextui-org/react";
 import {SearchIcon} from "./searchIcon";

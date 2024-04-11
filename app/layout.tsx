@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Menu from "@/app/ui/menu";
 import { Providers } from "./providers";
+import {ClientComponent} from "@/app/ui/natalChartSearch";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      
         <Providers>
-          <Menu />
-          <br />
-          <br />
-          {children}  
+          
+            <Menu />
+            <br />
+            <br />
+            <ClientComponent>
+              {children}
+            </ClientComponent>
         </Providers>
+        
       </body>
     </html>
   );
