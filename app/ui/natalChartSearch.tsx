@@ -16,7 +16,7 @@ export function ClientComponent({children}: { children: React.ReactNode }){
 export default function NatalChartForm(){
     return  (
         <>
-        <DatePicker className='text-black bg-white' label="Date picker" />
-                    <TimePicker className='text-black bg-white' label="Time picker" /></>
+        <DatePicker name='date_picker' className='text-black bg-white' label="Date picker" />
+        <TimePicker name='time_picker' className='text-black bg-white' label="Time picker" /></>
     );
 }

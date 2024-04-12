@@ -3,6 +3,8 @@ import AstroChart from "@/app/ui/astroChart";
 import Search from "@/app/ui/search";
 import SearchBox from "@/app/ui/searchBox"
 import NatalChartForm from "@/app/ui/natalChartSearch";
+import { createNatalChart } from "@/app/lib/actions";
+import { Button } from "@/app/ui/button";
 
 // import { Suspense } from "react";
 
@@ -76,16 +78,31 @@ export default async function NatalChart({ // add aync cause of await data fetch
   // const data = JSON.stringify(horoscope);
 
   return (
-    <>
-    <Search placeholder="..."/>
-    <h3>Url Query check:</h3>
-    <p>{url_rewrited}</p>
-    <SearchBox />
-    <NatalChartForm />
-    <br/>
-    <AstroChart />
-    {/* {JSON.stringify(horoscope)} */}
-    {/* {data} */}
-    </>
+    <form action={createNatalChart}>
+      <Search placeholder="..."/>
+      <h3>Url Query check:</h3>
+      <p>{url_rewrited}</p>
+      <SearchBox />
+      <NatalChartForm />
+      <br/>
+      <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+        Uknown time
+      </label>
+      <div className="relative mt-2 rounded-md">
+        <div className="relative">  
+          <input
+            id="unknown_time"
+            name="unknown_time" // formData checkin point
+            type="checkbox"
+            className=""              
+          />
+        </div>
+      </div>
+      
+      {/* {JSON.stringify(horoscope)} */}
+      {/* {data} */}
+      <Button type="submit">Create Natal Chart</Button>
+    </form>
+    // <AstroChart />
   );
 }

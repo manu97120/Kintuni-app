@@ -13,18 +13,18 @@ export default function SearchBox() {
     console.log(`SearchBox acessToken = ${accessToken}`);
     
     return (
-        <form>
+        // <form>
             <AddressAutofill accessToken={accessToken}>
                 <input type="text" name="address" autoComplete="street-address" className='text-black'/>
             </AddressAutofill>
-            {/* <Autocomplete
-                defaultItems={animals}
-                label="Favorite Animal"
-                placeholder="Search an animal"
-                className="max-w-xs"
-             >
-                {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
-            </Autocomplete> */}
-        </form>
+            // <Autocomplete
+            //     defaultItems={animals}
+            //     label="Favorite Animal"
+            //     placeholder="Search an animal"
+            //     className="max-w-xs"
+            //  >
+            //     {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+            // </Autocomplete>
+        // </form>
     );
 }
