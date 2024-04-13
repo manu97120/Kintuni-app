@@ -17,7 +17,8 @@ import { redirect } from 'next/navigation';
 export async function createNatalChart(formData:FormData){
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
-    address: formData.get("address"),
+    // address: formData.get("address"),
+    srcBox: formData.get("srcBox"),
     date_picker: formData.get("date_picker"),
     time_picker: formData.get("time_picker"),
     unknown_time: formData.get("unknown_time"),

@@ -1,7 +1,7 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import Search from "@/app/ui/search";
-import SearchBox from "@/app/ui/searchBox"
+import {MapBoxAddressAutofill, MapboxSearchBox} from "@/app/ui/searchBox"
 import NatalChartForm from "@/app/ui/natalChartSearch";
 import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
@@ -79,10 +79,11 @@ export default async function NatalChart({ // add aync cause of await data fetch
 
   return (
     <form action={createNatalChart}>
-      <Search placeholder="..."/>
+      {/* <Search placeholder="..."/>
       <h3>Url Query check:</h3>
-      <p>{url_rewrited}</p>
-      <SearchBox />
+      <p>{url_rewrited}</p> */}
+      {/* <MapBoxAddressAutofill /> */}
+      <MapboxSearchBox/>
       <NatalChartForm />
       <br/>
       <label htmlFor="amount" className="mb-2 block text-sm font-medium">
