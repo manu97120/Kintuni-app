@@ -83,7 +83,7 @@ export default async function NatalChart({ // add aync cause of await data fetch
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
       {/* <MapBoxAddressAutofill /> */}
-      <MapboxSearchBox/>
+      <MapboxSearchBox name="test"/>
       <NatalChartForm />
       <br/>
       <label htmlFor="amount" className="mb-2 block text-sm font-medium">
