@@ -23,15 +23,32 @@ export function MapBoxAddressAutofill() {
 }
 
 export function MapboxSearchBox() {
-    const [value, setValue] = useState('');
+    // const session_token = crypto.randomUUID(); // automatic session token
+    const [inputV, setInputV] = useState('');
     // const [suggestId,setSuggestId] = useState(null);
 
     const handleSearch = useDebouncedCallback((term) => {
-        setValue(term);
+        setInputV(term);
     },400);
-    console.log(value);
+
+    // console.log(`::: session_token = ${session_token}`);
+    console.log(`Searchbox input: ${inputV}`);
+
+    function suggests(sugO){
+        console.log(`::: SearchBoxSuggestionsResults object`);
+        console.log(sugO);
+    };
+
+    function retrieve(sugO){
+        console.log(`::: SearchBoxSuggestionsResults object = ${JSON.stringify(sugO)}`);
+    };
+
     return (
         // <SearchBox name="srcBox" value={value} onChange={(e)=>{target(e)}} accessToken={accessToken} />
-        <SearchBox id='srcBox' name='srcBox' value={value} accessToken={accessToken} onChange={(e)=>{handleSearch(e.target.value)}}/>
+        <SearchBox id="srcBox" name="srcBox" value={inputV} 
+            accessToken={accessToken} onChange={(inputV)=>{handleSearch(inputV)}}
+            interceptSearch={inputV}
+            onSuggest={(inputV)=>{suggests(inputV)}}
+        />
     );
 }

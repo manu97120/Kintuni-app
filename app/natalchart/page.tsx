@@ -18,13 +18,13 @@ export default async function NatalChart({ // add aync cause of await data fetch
   // declare and create query variable on condition statement
   const address = searchParams?.address || "";
   const url_rewrited = address.replace(/ /g, "+");
-  const session_token = crypto.randomUUID();
+  // const session_token = crypto.randomUUID();
 
   console.log(`::: url_rewrited = ${url_rewrited}`);
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
   console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
   
-  console.log(`::: session_token = ${session_token}`);
+  // console.log(`::: session_token = ${session_token}`);
   
   
   
@@ -83,7 +83,7 @@ export default async function NatalChart({ // add aync cause of await data fetch
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
       {/* <MapBoxAddressAutofill /> */}
-      <MapboxSearchBox name="test"/>
+      <MapboxSearchBox />
       <NatalChartForm />
       <br/>
       <label htmlFor="amount" className="mb-2 block text-sm font-medium">
@@ -103,7 +103,7 @@ export default async function NatalChart({ // add aync cause of await data fetch
       {/* {JSON.stringify(horoscope)} */}
       {/* {data} */}
       <Button type="submit">Create Natal Chart</Button>
+      <AstroChart />
     </form>
-    // <AstroChart />
   );
 }
