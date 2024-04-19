@@ -42,6 +42,14 @@ export default function MapboxSearchBox() {
   const handleSearch = useDebouncedCallback((term) => {
     setInputV(term);
     // if(term) : delete params query
+    const params = new URLSearchParams(searchParams);
+    if (!term) {
+      params.delete('address','coordinates');
+    } 
+
+    // updates the URL with the user's search data without reloading
+    replace(`${pathname}?${params.toString()}`);
+    // if(term) : delete params query
   }, 400);
 
   // console.log(`::: session_token = ${session_token}`);
@@ -50,10 +58,6 @@ export default function MapboxSearchBox() {
   function suggests(sugO) {
     // console.log(`::: SearchBoxSuggestionsResults object`);
     // console.log(sugO);
-    // console.log(sugO.suggestions[0].mapbox_id);
-    // const sugId = sugO.suggestions[0].mapbox_id;
-    // setSuggestId(sugId);
-    // console.log(`::: SearchBoxSuggestionsResults filter`);
     // console.log(sugO.suggestions[0].mapbox_id);
     setSuggestId(sugO.suggestions[0].mapbox_id);
     // console.log(`::: SearchBoxSuggestionsResults object`);
@@ -68,31 +72,27 @@ export default function MapboxSearchBox() {
     // console.log(sugO);
     // console.log(`Longtitude: ${sugO.features[0].geometry.coordinates[0]} \n Lattitude: ${sugO.features[0].geometry.coordinates[1]}`);
     // const sugId = sugO.suggestions[0].mapbox_id;
-    setCoordinates(sugO.features[0].geometry.coordinates);
-    setAddressQuery(sugO.features[0].properties.name);
-    console.log(`::: SearchBoxRetrievesResults coordinates`);
-    // console.log(sugO.suggestions[0].mapbox_id);
-    // console.log(typeof sugO.suggestions[0].mapbox_id);
-    console.log(coordinates);
     const params = new URLSearchParams(searchParams);
 
+    setCoordinates(sugO.features[0].geometry.coordinates);
+    setAddressQuery(sugO.features[0].properties.name);
+    
     // change inputV by town name retrieve directly
-    if (addressQuery) {
+    if (addressQuery && coordinates) {
+      params.set("addressQuery", addressQuery);
       params.set("coordinates", coordinates);
-      params.set("address", addressQuery);
-    } else {
-      params.delete("coordinates");
-    }
+    } 
 
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
+    console.log(`::: SearchBoxRetrievesResults coordinates`);
+    console.log(coordinates);
   }
 
   return (
     // <SearchBox name="srcBox" value={value} onChange={(e)=>{target(e)}} accessToken={accessToken} />
     <SearchBox
-      id="srcBox"
-      name="srcBox"
+      
       value={inputV}
       accessToken={accessToken}
       onChange={(inputV) => {

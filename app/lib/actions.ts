@@ -14,18 +14,19 @@ import { redirect } from 'next/navigation';
    
 // const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
-export async function createNatalChart(formData:FormData){
+export async function createNatalChart(addressQuery: string,coordinates: [],formData:FormData){
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
-    // address: formData.get("address"),
-    srcBox: formData.get("test"),
-    date_picker: formData.get("date_picker"),
-    time_picker: formData.get("time_picker"),
-    unknown_time: formData.get("unknown_time"),
-    longT: formData.get("longT"),
-    latT: formData.get("latT")
+    addressQuery: addressQuery,
+    coordinates: coordinates,
+    srcBox: formData.get("srcBox"),
+    date: formData.get("date_picker"),
+    time: formData.get("time_picker"),
+    unknown_time: formData.get("unknown_time")
   };
   console.log(`>>> Server log for rawFormData:\n ${JSON.stringify(rawFormData)}`);
+  revalidatePath('/natalchart');
+  redirect('/natalchart');
 }
  
 export async function createUserProfile(formData: FormData) {
