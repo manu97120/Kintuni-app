@@ -5,7 +5,7 @@ import MapboxSearchBox from "@/app/ui/searchBox";
 import NatalChartForm from "@/app/ui/natalChartSearch";
 import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
-import { NatalchartFrom } from '@/app/lib/definitions';
+import { NatalchartFrom } from "@/app/lib/definitions";
 
 // import { Suspense } from "react";
 
@@ -13,7 +13,7 @@ export default function NatalChart({
   // add aync cause of await data fetching inside component
   searchParams,
 }: {
-  searchParams: {
+  searchParams?: {
     addressQuery?: string;
     coordinates?: [];
     // date?: Date;
@@ -23,14 +23,17 @@ export default function NatalChart({
     // nite?: 'on' | null;
   };
 }) {
-  // declare and create query variable on condition statement
-  const address = searchParams?.addressQuery || "";
-  // const coordinates = searchParams?.coordinates || "";
-  let url_rewrited = address.replace(/ /g, "+");
-  //url_rewrited = coordinates;
+  // declare and create variable on condition statement
+  const addressQuery = searchParams?.addressQuery || "";
+  const coordinates = searchParams?.coordinates || [];
+  // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
+  // params_retrieveFromUrl += coordinates;
   // const session_token = crypto.randomUUID();
+  console.log(`data to show the svg`);
 
-  console.log(`::: url_rewrited = ${url_rewrited}`);
+  console.log(
+    `::: params retrieve From Url \n addressQuery: ${addressQuery} \n ${coordinates}`,
+  );
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
   console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
 
@@ -93,8 +96,7 @@ export default function NatalChart({
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
       {/* <MapBoxAddressAutofill /> */}
-      <MapboxSearchBox id="srcBox"
-      name="srcBox"/>
+      <MapboxSearchBox />
       <NatalChartForm />
       <br />
       <label htmlFor="unknown_time" className="mb-2 block text-sm font-medium">
@@ -136,7 +138,6 @@ export default function NatalChart({
           />
         </div>
       </div>
-      
 
       {/* {JSON.stringify(horoscope)} */}
       {/* {data} */}

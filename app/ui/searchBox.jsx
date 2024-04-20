@@ -44,8 +44,8 @@ export default function MapboxSearchBox() {
     // if(term) : delete params query
     const params = new URLSearchParams(searchParams);
     if (!term) {
-      params.delete('address','coordinates');
-    } 
+      params.delete("address", "coordinates");
+    }
 
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
@@ -76,12 +76,12 @@ export default function MapboxSearchBox() {
 
     setCoordinates(sugO.features[0].geometry.coordinates);
     setAddressQuery(sugO.features[0].properties.name);
-    
+
     // change inputV by town name retrieve directly
     if (addressQuery && coordinates) {
       params.set("addressQuery", addressQuery);
       params.set("coordinates", coordinates);
-    } 
+    }
 
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
@@ -92,8 +92,9 @@ export default function MapboxSearchBox() {
   return (
     // <SearchBox name="srcBox" value={value} onChange={(e)=>{target(e)}} accessToken={accessToken} />
     <SearchBox
-      
-      value={inputV}
+      id="srcBox"
+      name="srcBox"
+      value={addressQuery}
       accessToken={accessToken}
       onChange={(inputV) => {
         handleSearch(inputV);
@@ -102,8 +103,8 @@ export default function MapboxSearchBox() {
       onSuggest={(inputV) => {
         suggests(inputV);
       }}
-      onRetrieve={(inputV) => {
-        retrieve(inputV);
+      onRetrieve={(suggestId) => {
+        retrieve(suggestId);
       }}
     />
   );
