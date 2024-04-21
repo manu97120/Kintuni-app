@@ -1,4 +1,4 @@
-export type NatalchartFrom = {
+export type NatalchartSchema = {
     addressQuery: string;
     coordinates: [];
     date: Date;

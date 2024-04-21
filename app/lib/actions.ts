@@ -15,15 +15,15 @@ import { redirect } from "next/navigation";
 // const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createNatalChart(
-  formData: FormData,
-  // addressQuery: string,
+  addressQuery: string,
   // coordinates: [],
+  formData: FormData,
 ) {
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
-    // addressQuery: addressQuery,
+    addressQuery: addressQuery,
     // coordinates: coordinates,
-    srcBox: formData.get("srcBox"),
+    // srcBox: formData.get("srcBox"),
     date: formData.get("date_picker"),
     time: formData.get("time_picker"),
     unknown_time: formData.get("unknown_time"),

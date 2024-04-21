@@ -6,14 +6,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 // import dayjs from 'dayjs';
 
-export function ClientComponent({children}: { children: React.ReactNode }){
+export function WrapDateTimeMUI({children}: { children: React.ReactNode }){
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             {children}
         </LocalizationProvider>
     );
 }
-export default function NatalChartForm(){
+export default function DateTimeMUI(){
     return  (
         <>
         <DatePicker name='date_picker' className='text-black bg-white' label="Date picker" />

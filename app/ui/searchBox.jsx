@@ -36,13 +36,13 @@ export default function MapboxSearchBox() {
   const [coordinates, setCoordinates] = useState([]);
 
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
     setInputV(term);
     // if(term) : delete params query
-    const params = new URLSearchParams(searchParams);
     if (!term) {
       params.delete("address", "coordinates");
     }
@@ -72,7 +72,7 @@ export default function MapboxSearchBox() {
     // console.log(sugO);
     // console.log(`Longtitude: ${sugO.features[0].geometry.coordinates[0]} \n Lattitude: ${sugO.features[0].geometry.coordinates[1]}`);
     // const sugId = sugO.suggestions[0].mapbox_id;
-    const params = new URLSearchParams(searchParams);
+    
 
     setCoordinates(sugO.features[0].geometry.coordinates);
     setAddressQuery(sugO.features[0].properties.name);

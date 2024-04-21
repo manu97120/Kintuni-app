@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Menu from "@/app/ui/menu";
 import { Providers } from "./providers";
-import {ClientComponent} from "@/app/ui/natalChartSearch";
+import {WrapDateTimeMUI} from "@/app/ui/natalChartSearch";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +26,9 @@ export default function RootLayout({
             <Menu />
             <br />
             <br />
-            <ClientComponent>
+            <WrapDateTimeMUI>
               {children}
-            </ClientComponent>
+            </WrapDateTimeMUI>
         </Providers>
         
       </body>

@@ -1,16 +1,14 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
-import Search from "@/app/ui/search";
 import MapboxSearchBox from "@/app/ui/searchBox";
-import NatalChartForm from "@/app/ui/natalChartSearch";
+import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
-import { NatalchartFrom } from "@/app/lib/definitions";
 
 // import { Suspense } from "react";
 
 export default function NatalChart({
-  // add aync cause of await data fetching inside component
+  // add aync if await data fetching inside component
   searchParams,
 }: {
   searchParams?: {
@@ -89,15 +87,16 @@ export default function NatalChart({
   );
 
   // const data = JSON.stringify(horoscope);
+  const CreateNatalChart = createNatalChart.bind(addressQuery,coordinates,null);
 
   return (
-    <form action={createNatalChart}>
+    <form action={CreateNatalChart}>
       {/* <Search placeholder="..."/>
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
       {/* <MapBoxAddressAutofill /> */}
       <MapboxSearchBox />
-      <NatalChartForm />
+      <DateTimeMUI />
       <br />
       <label htmlFor="unknown_time" className="mb-2 block text-sm font-medium">
         Uknown time
