@@ -6,6 +6,7 @@ import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
 
 // import { Suspense } from "react";
+export const dynamic = 'force-dynamic'
 
 export default function NatalChart({
   // add aync if await data fetching inside component
@@ -13,7 +14,8 @@ export default function NatalChart({
 }: {
   searchParams?: {
     addressQuery?: string;
-    coordinates?: [];
+    longitude?: string;
+    lattitude?: string; // cause url tranfert string
     // date?: Date;
     // time?: Date;
     // unknown_time?: 'on' | null;
@@ -23,14 +25,16 @@ export default function NatalChart({
 }) {
   // declare and create variable on condition statement
   const addressQuery = searchParams?.addressQuery || "";
-  const coordinates = searchParams?.coordinates || [];
+  const resLongitude = searchParams?.longitude || "";
+  const resLattitude = searchParams?.lattitude || "";
   // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
   // params_retrieveFromUrl += coordinates;
   // const session_token = crypto.randomUUID();
   console.log(`data to show the svg`);
 
   console.log(
-    `::: params retrieve From Url \n addressQuery: ${addressQuery} \n ${coordinates}`,
+    `::: params retrieve From Url \n addressQuery: ${addressQuery} \n 
+    Longitude: ${resLongitude} \n Lattitude: ${resLattitude}`,
   );
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
   console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
@@ -87,7 +91,8 @@ export default function NatalChart({
   );
 
   // const data = JSON.stringify(horoscope);
-  const CreateNatalChart = createNatalChart.bind(addressQuery,coordinates,null);
+  // Here how to bind data 
+  const CreateNatalChart = createNatalChart.bind(addressQuery,resLongitude,resLattitude, null);
 
   return (
     <form action={CreateNatalChart}>

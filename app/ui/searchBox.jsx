@@ -34,6 +34,7 @@ export default function MapboxSearchBox() {
   const [addressQuery, setAddressQuery] = useState("");
   const [suggestId, setSuggestId] = useState("");
   const [coordinates, setCoordinates] = useState([]);
+  const [stateOnChange, setStateOnValue] = useState(false);
 
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -42,14 +43,15 @@ export default function MapboxSearchBox() {
 
   const handleSearch = useDebouncedCallback((term) => {
     setInputV(term);
+    console.log(`onChange event:`);
+    console.log(term);
     // if(term) : delete params query
-    if (!term) {
-      params.delete("address", "coordinates");
+     if (term) {
+      setStateOnValue(true);
     }
 
     // updates the URL with the user's search data without reloading
-    replace(`${pathname}?${params.toString()}`);
-    // if(term) : delete params query
+    // replace(`${pathname}?${params.toString()}`);
   }, 400);
 
   // console.log(`::: session_token = ${session_token}`);
@@ -78,15 +80,21 @@ export default function MapboxSearchBox() {
     setAddressQuery(sugO.features[0].properties.name);
 
     // change inputV by town name retrieve directly
-    if (addressQuery && coordinates) {
+    if (stateOnChange) {
       params.set("addressQuery", addressQuery);
-      params.set("coordinates", coordinates);
+      params.set("longitude", coordinates[0]);
+      params.set("lattitude", coordinates[1]);
+      // params.set("coordinates", coordinates);
+    }else{
+      params.delete("addressQuery","longitude","lattitude");
     }
 
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
     console.log(`::: SearchBoxRetrievesResults coordinates`);
-    console.log(coordinates);
+    console.log(`::: longitude: ${coordinates[0]}`);
+    console.log(`::: lattitude: ${coordinates[1]}`);
+    // console.log(coordinates);
   }
 
   return (

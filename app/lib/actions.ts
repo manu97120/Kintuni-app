@@ -16,13 +16,15 @@ import { redirect } from "next/navigation";
 
 export async function createNatalChart(
   addressQuery: string,
-  // coordinates: [],
+  longitude: string,
+  lattitude: string,
   formData: FormData,
 ) {
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
     addressQuery: addressQuery,
-    // coordinates: coordinates,
+    longitude: longitude,
+    lattitude: lattitude,
     // srcBox: formData.get("srcBox"),
     date: formData.get("date_picker"),
     time: formData.get("time_picker"),
@@ -33,8 +35,9 @@ export async function createNatalChart(
   console.log(
     `>>> Server log for rawFormData:\n ${JSON.stringify(rawFormData)}`,
   );
-  // revalidatePath("/natalchart");
-  // redirect("/natalchart");
+  // to check to adjust app comportement on submittion
+  revalidatePath("/natalchart");
+  redirect("/natalchart");
 }
 
 export async function createUserProfile(formData: FormData) {

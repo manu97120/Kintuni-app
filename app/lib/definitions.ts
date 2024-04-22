@@ -1,6 +1,7 @@
 export type NatalchartSchema = {
     addressQuery: string;
-    coordinates: [];
+    longitude: number;
+    lattitude: number;
     date: Date;
     time: Date;
     unknown_time: 'on' | null;
