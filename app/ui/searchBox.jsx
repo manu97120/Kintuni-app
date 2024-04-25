@@ -56,7 +56,7 @@ export default function MapboxSearchBox() {
 
   // console.log(`::: session_token = ${session_token}`);
   console.log(`Searchbox input: ${inputV}`);
-
+  // test async await approach
   function suggests(sugO) {
     // console.log(`::: SearchBoxSuggestionsResults object`);
     // console.log(sugO);

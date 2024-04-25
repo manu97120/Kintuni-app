@@ -1,6 +1,9 @@
 "use server";
 // import { z } from 'zod';
 // import { sql } from '@vercel/postgres';
+import { Schema, model, connect } from 'mongoose';
+
+import NatalChartUserSchema  from "@/app/lib/definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -20,6 +23,12 @@ export async function createNatalChart(
   lattitude: string,
   formData: FormData,
 ) {
+  await connect(`${process.env.MONGO_URI}`);
+  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');`
+  //if your database has auth enabled
+
+  const natalchartSchema = new Schema(NatalChartUserSchema);
+
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
     addressQuery: addressQuery,
