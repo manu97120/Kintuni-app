@@ -25,14 +25,17 @@ class Animator {
   timeSinceLoopStart: number
   context: this
   cuspsElement: any
-  data!: AstroData // During build time !? to avoid err or modify tsconfig.json
-  duration!: number
-  callback!: () => void
+  data:  AstroData // During build time !? to avoid err or modify tsconfig.json
+  duration: number
+  callback: () => void
   constructor (transit: Transit, settings: Settings) {
     this.transit = transit
     this.isReverse = false
     this.rotation = 0
     this.settings = settings
+    // this.data = {}
+    // this.duration = 0
+
     // Copy data
     this.actualPlanetPos = {}
     for (const planet in this.transit.data.planets) {
