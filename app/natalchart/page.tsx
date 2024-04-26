@@ -92,16 +92,44 @@ export default function NatalChart({
 
   // const data = JSON.stringify(horoscope);
   // Here how to bind data 
-  const CreateNatalChart = createNatalChart.bind(addressQuery,resLongitude,resLattitude, null);
+  // const CreateNatalChart = createNatalChart.bind(addressQuery,resLongitude,resLattitude, null);
 
   return (
-    <form action={CreateNatalChart}>
+    <form action={createNatalChart}>
       {/* <Search placeholder="..."/>
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
       {/* <MapBoxAddressAutofill /> */}
       <MapboxSearchBox />
       <DateTimeMUI />
+      <br />
+      <label htmlFor="longitude" className="mb-2 block text-sm font-medium">
+        Longitude
+      </label>
+      <div className="relative mt-2 rounded-md">
+        <div className="relative">
+          <input
+            id="longitude"
+            name="longitude" // formData checkin point
+            type="text"
+            className='text-black'
+          />
+        </div>
+      </div>
+      <br />
+      <label htmlFor="lattitude" className="mb-2 block text-sm font-medium">
+        Lattitude
+      </label>
+      <div className="relative mt-2 rounded-md">
+        <div className="relative">
+          <input
+            id="lattitude"
+            name="lattitude" // formData checkin point
+            type="text"
+            className='text-black'
+          />
+        </div>
+      </div>
       <br />
       <label htmlFor="unknown_time" className="mb-2 block text-sm font-medium">
         Uknown time

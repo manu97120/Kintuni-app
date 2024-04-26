@@ -18,23 +18,25 @@ import { redirect } from "next/navigation";
 // const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createNatalChart(
-  addressQuery: string,
-  longitude: string,
-  lattitude: string,
   formData: FormData,
+  addressQuery?: string,
+  longitude?: string,
+  lattitude?: string,
 ) {
-  await connect(`${process.env.MONGO_URI}`);
+  // await connect(`${process.env.MONGO_URI}`);
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');`
   //if your database has auth enabled
 
-  const natalchartSchema = new Schema(NatalChartUserSchema);
+  // const natalchartSchema = new Schema(NatalChartUserSchema);
 
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
-    addressQuery: addressQuery,
-    longitude: longitude,
-    lattitude: lattitude,
+    // addressQuery: addressQuery,
+    // longitude: longitude,
+    // lattitude: lattitude,
     // srcBox: formData.get("srcBox"),
+    longitude: formData.get("longitude"),
+    lattitude: formData.get("lattitude"),
     date: formData.get("date_picker"),
     time: formData.get("time_picker"),
     unknown_time: formData.get("unknown_time"),
