@@ -18,8 +18,8 @@ import type { Settings } from './settings'
 export type Points = Record<string, number[]>
 export interface LocatedPoint { name: string; x: number; y: number; r: number; angle: number; pointer?: number; index?: number }
 export interface AstroData {
-  planets: Points
-  cusps: number[]
+  planets?: Points
+  cusps?: number[]
 }
 
 /**
