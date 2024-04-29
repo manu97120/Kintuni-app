@@ -6,7 +6,7 @@ import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
 
 // import { Suspense } from "react";
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export default function NatalChart({
   // add aync if await data fetching inside component
@@ -24,16 +24,16 @@ export default function NatalChart({
   };
 }) {
   // declare and create variable on condition statement
-  const addressQuery = searchParams?.addressQuery || "";
-  const resLongitude = searchParams?.longitude || "";
-  const resLattitude = searchParams?.lattitude || "";
+  const resAddressQuery = searchParams?.addressQuery || "";
+  const resLongitude = searchParams?.longitude || 0;
+  const resLattitude = searchParams?.lattitude || 0;
   // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
   // params_retrieveFromUrl += coordinates;
   // const session_token = crypto.randomUUID();
   console.log(`data to show the svg`);
 
   console.log(
-    `::: params retrieve From Url \n addressQuery: ${addressQuery} \n 
+    `::: params retrieve From Url \n addressQuery: ${resAddressQuery} \n 
     Longitude: ${resLongitude} \n Lattitude: ${resLattitude}`,
   );
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
@@ -91,8 +91,13 @@ export default function NatalChart({
   );
 
   // const data = JSON.stringify(horoscope);
-  // Here how to bind data 
-  // const CreateNatalChart = createNatalChart.bind(addressQuery,resLongitude,resLattitude, null);
+  // Here how to bind data
+  const CreateNatalChart = createNatalChart.bind([
+    null,
+    resAddressQuery,
+    resLongitude,
+    resLattitude,
+  ]);
 
   return (
     <form action={createNatalChart}>
@@ -111,8 +116,11 @@ export default function NatalChart({
           <input
             id="longitude"
             name="longitude" // formData checkin point
-            type="text"
-            className='text-black'
+            type="number"
+            step={0.000001}
+            // value={resLongitude ? resLongitude : ""}
+            autoComplete="on"
+            className="text-black"
           />
         </div>
       </div>
@@ -125,8 +133,11 @@ export default function NatalChart({
           <input
             id="lattitude"
             name="lattitude" // formData checkin point
-            type="text"
-            className='text-black'
+            type="number"
+            step={0.000001}
+            // value={resLattitude ? resLattitude : ""}
+            autoComplete="on"
+            className="text-black"
           />
         </div>
       </div>

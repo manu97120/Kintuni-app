@@ -1,9 +1,9 @@
 "use server";
 // import { z } from 'zod';
 // import { sql } from '@vercel/postgres';
-import { Schema, model, connect } from 'mongoose';
+import { Schema, model, connect } from "mongoose";
 
-import NatalChartUserSchema  from "@/app/lib/definitions";
+import NatalChartUserSchema from "@/app/lib/definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -20,8 +20,8 @@ import { redirect } from "next/navigation";
 export async function createNatalChart(
   formData: FormData,
   addressQuery?: string,
-  longitude?: string,
-  lattitude?: string,
+  longitude?: number,
+  lattitude?: number,
 ) {
   // await connect(`${process.env.MONGO_URI}`);
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');`
@@ -31,9 +31,9 @@ export async function createNatalChart(
 
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
-    // addressQuery: addressQuery,
-    // longitude: longitude,
-    // lattitude: lattitude,
+    addressQuery: addressQuery,
+    longitude2: longitude,
+    lattitude2: lattitude,
     // srcBox: formData.get("srcBox"),
     longitude: formData.get("longitude"),
     lattitude: formData.get("lattitude"),
@@ -48,7 +48,7 @@ export async function createNatalChart(
   );
   // to check to adjust app comportement on submittion
   revalidatePath("/natalchart");
-  redirect("/natalchart");
+  // redirect("/natalchart");
 }
 
 export async function createUserProfile(formData: FormData) {

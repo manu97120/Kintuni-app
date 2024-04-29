@@ -2,7 +2,7 @@
 // Cause we use a client library @mapbox/search-js-react
 // import { AddressAutofill } from "@mapbox/search-js-react";
 import { SearchBox } from "@mapbox/search-js-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 // import { SearchBox } from "@mapbox/search-js-react";
@@ -41,21 +41,33 @@ export default function MapboxSearchBox() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  //useEffect(() => {},[]);
   const handleSearch = useDebouncedCallback((term) => {
-    setInputV(term);
-    console.log(`onChange event:`);
-    console.log(term);
+    // const params = new URLSearchParams(searchParams);
+
     // if(term) : delete params query
-     if (term) {
+    if (term) {
+      setInputV(term);
+      console.log(`onChange event:`);
+      console.log(term);
+      console.log(`Searchbox input: ${inputV}`);
       setStateOnValue(true);
+      // params.set("addressQuery", addressQuery);
+      // params.set("longitude", coordinates[0]);
+      // params.set("lattitude", coordinates[1]);
+      // params.set("coordinates", coordinates);
+    } else {
+      setStateOnValue(false);
+      params.delete("addressQuery");
+      params.delete("longitude");
+      params.delete("lattitude");
     }
 
     // updates the URL with the user's search data without reloading
-    // replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`);
   }, 400);
 
   // console.log(`::: session_token = ${session_token}`);
-  console.log(`Searchbox input: ${inputV}`);
   // test async await approach
   function suggests(sugO) {
     // console.log(`::: SearchBoxSuggestionsResults object`);
@@ -74,20 +86,21 @@ export default function MapboxSearchBox() {
     // console.log(sugO);
     // console.log(`Longtitude: ${sugO.features[0].geometry.coordinates[0]} \n Lattitude: ${sugO.features[0].geometry.coordinates[1]}`);
     // const sugId = sugO.suggestions[0].mapbox_id;
-    
-
-    setCoordinates(sugO.features[0].geometry.coordinates);
-    setAddressQuery(sugO.features[0].properties.name);
+    // const params = new URLSearchParams(searchParams);
 
     // change inputV by town name retrieve directly
     if (stateOnChange) {
+      setCoordinates(sugO.features[0].geometry.coordinates);
+      setAddressQuery(sugO.features[0].properties.name);
       params.set("addressQuery", addressQuery);
       params.set("longitude", coordinates[0]);
       params.set("lattitude", coordinates[1]);
       // params.set("coordinates", coordinates);
-    }else{
-      params.delete("addressQuery","longitude","lattitude");
-    }
+    } //else {
+    // params.delete("addressQuery");
+    // params.delete("longitude");
+    // params.delete("lattitude");
+    // }
 
     // updates the URL with the user's search data without reloading
     replace(`${pathname}?${params.toString()}`);
@@ -103,6 +116,7 @@ export default function MapboxSearchBox() {
       id="srcBox"
       name="srcBox"
       value={addressQuery}
+      // inputValue={addressQuery ? addressQuery : ""}
       accessToken={accessToken}
       onChange={(inputV) => {
         handleSearch(inputV);
