@@ -1,8 +1,8 @@
 'use client'
-// import Chart from '@astrodraw/astrochart';
+import Chart from '@astrodraw/astrochart';
 // works too but generate 500 internal server error
 
-import Chart from '@/app/lib/astroDraw'; 
+// import Chart from '@/app/lib/astroDraw'; 
 // Works but with minor effect to check on module import/export
 // Fixed in settings tsx file
 import { useEffect } from 'react';
@@ -23,24 +23,36 @@ export default function AstroChart(){
         "Venus":[330]},
         "cusps":[296, 350, 30, 56, 75, 94, 116, 170, 210, 236, 255, 274]          
     };
+    // const data = undefined;
+    // const data = null;
+    // const data = {};
 
     useEffect(()=>{
-        const chart = new Chart( 'paper', 800, 800);
+        if(data){
+            const chart = new Chart( 'paper', 800, 800);
         console.log(`CHART variable ::: `);
         console.log(chart);
         const radix = chart.radix(data);
         console.log(`RADIX variable ::: `);
         console.log(radix);
         radix.aspects();
+        }
     },[]);
   
     return (
         <>
-        <h2>Astro Chart</h2>
-        {/* <div id="paper" min-height={400} min-width={400} onLoad={onLoad}></div> */}
-        {/* <div id="paper" min-height={400} min-width={400}></div> */}
-        <div id="paper"></div>
-        <script src="https://unpkg.com/@astrodraw/astrochart"></script>
+       
+        {
+            data && 
+            <>
+                 <h2>Astro Chart</h2>
+                {/* <div id="paper" min-height={400} min-width={400} onLoad={onLoad}></div> */}
+                {/* <div id="paper" min-height={400} min-width={400}></div> */}
+                <div id="paper"></div><script src="https://unpkg.com/@astrodraw/astrochart"></script>
+            </>
+            
+        }
+        
         </>
     );
 }

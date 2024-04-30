@@ -3,7 +3,7 @@
 // import { sql } from '@vercel/postgres';
 import { Schema, model, connect } from "mongoose";
 
-import NatalChartUserSchema from "@/app/lib/definitions";
+import {NatalChartUserSchema} from "@/app/lib/definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
