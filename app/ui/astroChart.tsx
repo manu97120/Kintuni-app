@@ -32,7 +32,7 @@ export default function AstroChart(){
         console.log(`RADIX variable ::: `);
         console.log(radix);
         radix.aspects();
-    });
+    },[]);
   
     return (
         <>

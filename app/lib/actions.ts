@@ -18,10 +18,10 @@ import { redirect } from "next/navigation";
 // const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createNatalChart(
+  addressQuery: string,
+  resLongitude: number,
+  resLattitude: number,
   formData: FormData,
-  addressQuery?: string,
-  longitude?: number,
-  lattitude?: number,
 ) {
   // await connect(`${process.env.MONGO_URI}`);
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');`
@@ -32,8 +32,8 @@ export async function createNatalChart(
   // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
     addressQuery: addressQuery,
-    longitude2: longitude,
-    lattitude2: lattitude,
+    resLongitude: resLongitude,
+    resLattitude: resLattitude,
     // srcBox: formData.get("srcBox"),
     longitude: formData.get("longitude"),
     lattitude: formData.get("lattitude"),
@@ -48,7 +48,7 @@ export async function createNatalChart(
   );
   // to check to adjust app comportement on submittion
   revalidatePath("/natalchart");
-  // redirect("/natalchart");
+  redirect("/natalchart");
 }
 
 export async function createUserProfile(formData: FormData) {

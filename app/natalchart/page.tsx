@@ -25,8 +25,8 @@ export default function NatalChart({
 }) {
   // declare and create variable on condition statement
   const resAddressQuery = searchParams?.addressQuery || "";
-  const resLongitude = searchParams?.longitude || 0;
-  const resLattitude = searchParams?.lattitude || 0;
+  const resLongitude = searchParams?.longitude || "";
+  const resLattitude = searchParams?.lattitude || "";
   // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
   // params_retrieveFromUrl += coordinates;
   // const session_token = crypto.randomUUID();
@@ -92,15 +92,16 @@ export default function NatalChart({
 
   // const data = JSON.stringify(horoscope);
   // Here how to bind data
-  const CreateNatalChart = createNatalChart.bind([
+  const CreateNatalChart = createNatalChart.bind(
     null,
     resAddressQuery,
     resLongitude,
     resLattitude,
-  ]);
+  );
 
   return (
-    <form action={createNatalChart}>
+    <form action={CreateNatalChart} name="Search">
+      {/* form attribute name for accessibility of all input elements inside cohérence  */}
       {/* <Search placeholder="..."/>
       <h3>Url Query check:</h3>
       <p>{url_rewrited}</p> */}
