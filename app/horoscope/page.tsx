@@ -180,7 +180,27 @@ export default function HoroscopePage() {
                         </div>
                         <div className="mb-4">
                             <label className="block">Aspect Orbs:</label>
-                            display orbs selecttag options object
+                        
+                            <label htmlFor="conjunction" className="block">Conjunction</label>
+                            <input className="form-input text-black" id="conjunction" name="conjunction" type="number" defaultValue="0" />
+                            <label htmlFor="opposition" className="block">Opposition</label>
+                            <input className="form-input text-black" id="opposition" name="opposition" type="number" defaultValue="0" />
+                            <label htmlFor="trine" className="block">Trine</label>
+                            <input className="form-input text-black" id="trine" name="trine" type="number" defaultValue="0" />
+                            <label htmlFor="square" className="block">Square</label>
+                            <input className="form-input text-black" id="square" name="square" type="number" defaultValue="0" />
+                            <label htmlFor="sextile" className="block">Sextile</label>
+                            <input className="form-input text-black" id="sextile" name="sextile" type="number" defaultValue="0" />
+                            <label htmlFor="quincunx" className="block">Quincunx</label>
+                            <input className="form-input text-black" id="quincunx" name="quincunx" type="number" defaultValue="0" />
+                            <label htmlFor="quintile" className="block">Quintile</label>
+                            <input className="form-input text-black" id="quintile" name="quintile" type="number" defaultValue="0" />
+                            <label htmlFor="septile" className="block">Septile</label>
+                            <input className="form-input text-black" id="septile" name="septile" type="number" defaultValue="0" />
+                            <label htmlFor="semi-square" className="block">Semi-square</label>
+                            <input className="form-input text-black" id="semi-square" name="semi-square" type="number" defaultValue="0" />
+                            <label htmlFor="semi-sextile" className="block">Semi-sextile</label>
+                            <input className="form-input text-black" id="semi-sextile" name="semi-sextile" type="number" defaultValue="0" />
                         </div>
                         <div className="mb-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -201,9 +221,7 @@ export default function HoroscopePage() {
 
                         <small className="block mb-4">* Cooking up this beta version of Zola</small>
                     </form>
-
-                </div>
-                <div className="flex flex-col md:flex-row">
+                    <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2">
                     <div className="form-group">
                         <label htmlFor="sunsign">Sun sign:</label>
@@ -436,6 +454,8 @@ export default function HoroscopePage() {
                     </div>
                 </div>
             </div>
+                </div>
+                
 
             </div>
             
