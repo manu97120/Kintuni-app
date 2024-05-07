@@ -4,6 +4,7 @@ import moment from "moment-timezone";
 import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
 import { Origin, Horoscope } from "circular-natal-horoscope-js";
+// import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
 
 interface AspectLevels {
   major: boolean;
@@ -268,7 +269,7 @@ export default function HoroscopePage() {
                 onChange={handleChange}
                 className="form-select text-black"
               >
-                <option value="Tropical">Tropical</option>
+                <option value="tropical">Tropical</option>
               </select>
             </div>
             <div className="mb-4">
@@ -281,14 +282,14 @@ export default function HoroscopePage() {
                 onChange={handleChange}
                 className="form-select text-black"
               >
-                <option value="Placidius">Placidius</option>
+                <option value="placidus">Placidius</option>
               </select>
             </div>
             <div className="mb-4">
               <fieldset className="block">Aspect Levels:</fieldset>
               <div className="space-y-2">
                 <label htmlFor="major" className="flex items-center">
-                  // Inside the form, for the checkboxes
+
                   <input
                     id="major"
                     name="major"
@@ -312,120 +313,174 @@ export default function HoroscopePage() {
                 </label>
               </div>
             </div>
-            <div className="mb-4">
-              <fieldset className="block">Aspect Orbs:</fieldset>
+            <fieldset className="block">Aspect Orbs:</fieldset>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
-              <label htmlFor="conjunction" className="block">
-                Conjunction
-              </label>
-              <input
-                className="form-input text-black"
-                id="conjunction"
-                name="conjunction"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="opposition" className="block">
-                Opposition
-              </label>
-              <input
-                className="form-input text-black"
-                id="opposition"
-                name="opposition"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="trine" className="block">
-                Trine
-              </label>
-              <input
-                className="form-input text-black"
-                id="trine"
-                name="trine"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="square" className="block">
-                Square
-              </label>
-              <input
-                className="form-input text-black"
-                id="square"
-                name="square"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="sextile" className="block">
-                Sextile
-              </label>
-              <input
-                className="form-input text-black"
-                id="sextile"
-                name="sextile"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="quincunx" className="block">
-                Quincunx
-              </label>
-              <input
-                className="form-input text-black"
-                id="quincunx"
-                name="quincunx"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="quintile" className="block">
-                Quintile
-              </label>
-              <input
-                className="form-input text-black"
-                id="quintile"
-                name="quintile"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="septile" className="block">
-                Septile
-              </label>
-              <input
-                className="form-input text-black"
-                id="septile"
-                name="septile"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="semi-square" className="block">
-                Semi-square
-              </label>
-              <input
-                className="form-input text-black"
-                id="semi-square"
-                name="semi-square"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
-              <label htmlFor="semi-sextile" className="block">
-                Semi-sextile
-              </label>
-              <input
-                className="form-input text-black"
-                id="semi-sextile"
-                name="semi-sextile"
-                type="number"
-                onChange={handleChange}
-                defaultValue="0"
-              />
+
+              <div className="mb-4">
+                <label htmlFor="orb_conjunction" className="block">
+                  Conjunction
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_conjunction"
+                  name="conjunction"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="orb_opposition" className="block">
+                  Opposition
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_opposition"
+                  name="opposition"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="orb_trine" className="block">
+                  Trine
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_trine"
+                  name="trine"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="orb_square" className="block">
+                  Square
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_square"
+                  name="square"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="orb_sextile" className="block">
+                  Sextile
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_sextile"
+                  name="sextile"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="orb_quincunx" className="block">
+                  Quincunx
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_quincunx"
+                  name="quincunx"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="orb_quintile" className="block">
+                  Quintile
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_quintile"
+                  name="quintile"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="orb_septile" className="block">
+                  Septile
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_septile"
+                  name="septile"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="orb_semi-square" className="block">
+                  Semi-square
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_semi-square"
+                  name="semi-square"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="orb_semi-sextile" className="block">
+                  Semi-sextile
+                </label>
+                <input
+                  className="form-input text-black"
+                  id="orb_semi-sextile"
+                  name="semi-sextile"
+                  type="number"
+                  min={0}
+                  max={12}
+                  onChange={handleChange}
+                  defaultValue="0"
+                />
+              </div>
+            </div>
+
+
             <div className="mb-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
