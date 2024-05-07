@@ -52,13 +52,13 @@ export default function HoroscopePage() {
     const { name, value, type, checked } = e.target;
     console.log("formData updated in handleChange:", formData); // Logging formData
 
-    if (name === "aspectLevels.major" || name === "aspectLevels.minor") {
+    if (name === "major" || name === "minor") {
       // Mise à jour des niveaux d'aspect
       setFormData((prevState) => ({
         ...prevState,
         aspectLevels: {
           ...prevState.aspectLevels,
-          [name.split(".")[1]]: checked,
+          [name]: checked,
         },
       }));
     } else if (name in formData.customOrbs) {
@@ -118,7 +118,7 @@ export default function HoroscopePage() {
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
     });
-
+    console.log("House System:", houseSystem);
     // Créer une instance d'Horoscope
     const horoscope = new Horoscope({
       origin: origin,
@@ -243,12 +243,12 @@ export default function HoroscopePage() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="language-select" className="block">
+              <label htmlFor="language" className="block">
                 Language
               </label>
               <select
-                id="language-select"
-                name="language-select"
+                id="language"
+                name="language"
                 className="form-select text-black"
                 onChange={handleChange}
               >
@@ -287,29 +287,25 @@ export default function HoroscopePage() {
             <div className="mb-4">
               <fieldset className="block">Aspect Levels:</fieldset>
               <div className="space-y-2">
-                <label
-                  htmlFor="aspectLevels.major"
-                  className="flex items-center"
-                >
+                <label htmlFor="major" className="flex items-center">
+                  // Inside the form, for the checkboxes
                   <input
-                    id="aspect-level-major"
-                    name="aspectLevels.major"
+                    id="major"
+                    name="major"
                     type="checkbox"
                     className="form-checkbox mr-2 text-black"
-                    defaultChecked
+                    defaultChecked={formData.aspectLevels.major} // Set defaultChecked based on initial state
                     onChange={handleChange}
                   />
                   <span>Major</span>
                 </label>
-                <label
-                  htmlFor="aspectLevels.minor"
-                  className="flex items-center"
-                >
+                <label htmlFor="minor" className="flex items-center">
                   <input
-                    id="aspect-level-minor"
-                    name="aspectLevels.minor"
+                    id="minor"
+                    name="minor"
                     type="checkbox"
                     className="form-checkbox mr-2 text-black"
+                    defaultChecked={formData.aspectLevels.minor} // Set defaultChecked based on initial state
                     onChange={handleChange}
                   />
                   <span>Minor</span>
