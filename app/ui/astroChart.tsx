@@ -31,8 +31,9 @@ export default function AstroChart(){
         if(data){
             const chart = new Chart( 'paper', 800, 800);
         console.log(`CHART variable ::: `);
+        //const t = JSON.stringify(chart);
         console.log(chart);
-        const radix = chart.radix(data);
+      const radix = chart.radix(data);
         console.log(`RADIX variable ::: `);
         console.log(radix);
         radix.aspects();

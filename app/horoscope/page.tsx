@@ -23,8 +23,8 @@ export default function HoroscopePage() {
             minor: true
         },
         customOrbs: {
-            conjunction: 0,
-            opposition: 0,
+        conjunction: 0,
+        opposition: 0,
             trine: 0,
             square: 0,
             sextile: 0,
@@ -55,14 +55,14 @@ export default function HoroscopePage() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        const { date, time, latitude, longitude, houseSystem, zodiacSystem, language, aspectLevels, customOrbs } = formData;
-
+    const { date, time, latitude, longitude, houseSystem, zodiacSystem, language, aspectLevels, customOrbs } = formData;
+    
         // Create an Origin instance
         const origin = new Origin({
             year: moment(date).year(),
             month: moment(date).month() + 1, // Moment month is 0-indexed
             date: moment(date).date(),
-            hour: moment(time, 'HH:mm:ss').hour(),
+            hour: moment(time, 'HH: ki mm:ss').hour(),
             minute: moment(time, 'HH:mm:ss').minute(),
             latitude: parseFloat(latitude),
             longitude: parseFloat(longitude),
@@ -169,11 +169,11 @@ export default function HoroscopePage() {
                             <label className="block">Aspect Levels:</label>
                             <div className="space-y-2">
                                 <label htmlFor="aspect-level-major" className="flex items-center">
-                                    <input id="aspect-level-major" type="checkbox" className="form-checkbox mr-2 text-black" defaultChecked />
+                                    <input id="aspect-level-major" name="aspect-level-major" type="checkbox" className="form-checkbox mr-2 text-black" defaultChecked />
                                     <span>Major</span>
                                 </label>
                                 <label htmlFor="aspect-level-minor" className="flex items-center">
-                                    <input id="aspect-level-minor" type="checkbox" className="form-checkbox mr-2 text-black" />
+                                        <input id="aspect-level-minor" name="aspect-level-minor" type="checkbox" className="form-checkbox mr-2 text-black" />
                                     <span>Minor</span>
                                 </label>
                             </div>
