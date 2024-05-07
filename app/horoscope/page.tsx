@@ -51,12 +51,17 @@ export default function HoroscopePage() {
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
         }));
+        
+        console.log("::: onChange :::");
+        console.log(formData);
     };
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         const { date, time, latitude, longitude, houseSystem, zodiacSystem, language, aspectLevels, customOrbs } = formData;
-
+        console.log("::: onSubmit :::");
+        
+        console.log(formData);
         // Create an Origin instance
         const origin = new Origin({
             year: moment(date).year(),
@@ -125,7 +130,7 @@ export default function HoroscopePage() {
                         <h1 className="text-3xl font-bold text-left mb-4">Ancestral Astrology Beta</h1>
                         <h5 className="text-sm">A horoscope library for producing Kongo horoscope charts.</h5>
                     </div>
-                    <form id="form" className="max-w-lg mx-auto">
+                    <form id="form" className="max-w-lg mx-auto" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="mb-4">
                                 <label htmlFor="latitude" className="block">Latitude (decimal)</label>
@@ -166,7 +171,7 @@ export default function HoroscopePage() {
                             </select>
                         </div>
                         <div className="mb-4">
-                            <label className="block">Aspect Levels:</label>
+                            <fieldset className="block">Aspect Levels:</fieldset>
                             <div className="space-y-2">
                                 <label htmlFor="aspect-level-major" className="flex items-center">
                                     <input id="aspect-level-major" name="aspect-level-major" type="checkbox" className="form-checkbox mr-2 text-black" defaultChecked />
@@ -179,7 +184,7 @@ export default function HoroscopePage() {
                             </div>
                         </div>
                         <div className="mb-4">
-                            <label className="block">Aspect Orbs:</label>
+                            <fieldset className="block">Aspect Orbs:</fieldset>
 
                             <label htmlFor="conjunction" className="block">Conjunction</label>
                             <input className="form-input text-black" id="conjunction" name="conjunction" type="number" defaultValue="0" />
@@ -205,11 +210,11 @@ export default function HoroscopePage() {
                         <div className="mb-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block">Major Aspects:</label>
+                                    <fieldset className="block">Major Aspects:</fieldset>
                                     <div id="major-aspect-inputs"></div>
                                 </div>
                                 <div>
-                                    <label className="block">Minor Aspects:</label>
+                                    <fieldset className="block">Minor Aspects:</fieldset>
                                     <div id="minor-aspect-inputs"></div>
                                 </div>
                             </div>
