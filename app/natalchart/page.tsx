@@ -59,7 +59,7 @@ export default function NatalChart({
     longitude: -70.0,
   };
   const origin = new Origin({
-    year: parseInt(year),
+    year: parseInt(year.toString()),
     month: parseInt(month) - 1, // La bibliothèque attend que janvier = 0
     date: parseInt(day),
     hour: parseInt(hour),
