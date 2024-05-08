@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import moment from "moment-timezone";
 import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
-import { Origin, Horoscope } from "circular-natal-horoscope-js";
-// import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
+// import { Origin, Horoscope } from "circular-natal-horoscope-js";
+import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
 
 interface AspectLevels {
   major: boolean;
@@ -160,6 +160,11 @@ export default function HoroscopePage() {
 
   const loadTableTitles = () => {
     // Load table titles based on language
+    if (horoscope?._language) {
+      Horoscope.ZodiacLabels(horoscope._language).forEach((zodiac, index) => {
+        console.log(`"zodiac":${zodiac.label}, "index:" ${index + 1}`);
+      });
+    }
   };
 
   // Function to generate horoscope chart
@@ -167,12 +172,12 @@ export default function HoroscopePage() {
     // Call necessary functions to generate horoscope chart
     // Example: horoscope.generateChart()
   };
-  
-  if(horoscope){
-    console.log("::: Horoscope generated",horoscope);
-    console.log("CelestialBodies.all",horoscope.CelestialBodies);
-    console.log("CelestialBodies.all",horoscope.CelestialPoints);
-    console.log("CelestialBodies.all",horoscope.ZodiacCups);
+
+  if (horoscope) {
+    console.log("::: Horoscope generated", horoscope);
+    console.log("CelestialBodies.all", horoscope.CelestialBodies);
+    console.log("CelestialBodies.all", horoscope.CelestialPoints);
+    console.log("CelestialBodies.all", horoscope.ZodiacCusps);
   }
   // Additional DOM manipulation functions can go here
 
