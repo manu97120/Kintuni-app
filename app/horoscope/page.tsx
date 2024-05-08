@@ -37,7 +37,7 @@ export default function HoroscopePage() {
       "semi-sextile": 0,
     },
   });
-
+  const [horoscope, setHoroscope] = useState<Horoscope | null>(null);
   useEffect(() => {
     loadLanguageSelect();
     loadUI();
@@ -131,9 +131,9 @@ export default function HoroscopePage() {
       customOrbs: customOrbs,
       language: language,
     });
-
+    setHoroscope(horoscope);
     // Appeler la fonction pour générer le diagramme horoscope
-    generateHoroscope(horoscope);
+    generateHoroscope();
   };
 
   const loadUI = () => {
@@ -163,11 +163,17 @@ export default function HoroscopePage() {
   };
 
   // Function to generate horoscope chart
-  const generateHoroscope = (horoscope: Horoscope) => {
+  const generateHoroscope = () => {
     // Call necessary functions to generate horoscope chart
     // Example: horoscope.generateChart()
   };
-
+  
+  if(horoscope){
+    console.log("::: Horoscope generated",horoscope);
+    console.log("CelestialBodies.all",horoscope.CelestialBodies);
+    console.log("CelestialBodies.all",horoscope.CelestialPoints);
+    console.log("CelestialBodies.all",horoscope.ZodiacCups);
+  }
   // Additional DOM manipulation functions can go here
 
   return (

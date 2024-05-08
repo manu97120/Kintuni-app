@@ -1,4 +1,4 @@
-import { Origin, Horoscope } from "circular-natal-horoscope-js";
+  import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import MapboxSearchBox from "@/app/ui/searchBox";
 import DateTimeMUI from "@/app/ui/natalChartSearch";
