@@ -5,6 +5,7 @@ import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
 // import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
+import { saveHoroscope } from "@/app/lib/actions_db";
 
 interface AspectLevels {
   major: boolean;
@@ -12,7 +13,7 @@ interface AspectLevels {
 }
 
 export default function HoroscopePage() {
-  const [formData, setFormData] = useState({
+  const [horoscopeFormData, sethoroscopeFormData] = useState({
     date: moment().format("YYYY-MM-DD"),
     time: moment().format("HH:mm:00"),
     latitude: "",
@@ -45,26 +46,26 @@ export default function HoroscopePage() {
 
   useEffect(() => {
     loadTableTitles();
-  }, [formData.language]);
+  }, [horoscopeFormData.language]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value, type, checked } = e.target;
-    console.log("formData updated in handleChange:", formData); // Logging formData
+    console.log("horoscopeFormData updated in handleChange:", horoscopeFormData); // Logging horoscopeFormData
 
     if (name === "major" || name === "minor") {
       // Mise à jour des niveaux d'aspect
-      setFormData((prevState) => ({
+      sethoroscopeFormData((prevState) => ({
         ...prevState,
         aspectLevels: {
           ...prevState.aspectLevels,
           [name]: checked,
         },
       }));
-    } else if (name in formData.customOrbs) {
+    } else if (name in horoscopeFormData.customOrbs) {
       // Mise à jour des orbes personnalisés
-      setFormData((prevState) => ({
+      sethoroscopeFormData((prevState) => ({
         ...prevState,
         customOrbs: {
           ...prevState.customOrbs,
@@ -73,7 +74,7 @@ export default function HoroscopePage() {
       }));
     } else {
       // Mise à jour des autres champs du formulaire
-      setFormData((prevState) => ({
+      sethoroscopeFormData((prevState) => ({
         ...prevState,
         [name]: type === "checkbox" ? checked : value,
       }));
@@ -82,9 +83,9 @@ export default function HoroscopePage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("formData submitted:", formData); // Logging formData
+    console.log("horoscopeFormData submitted:", horoscopeFormData); // Logging horoscopeFormData
 
-    // Valider que toutes les données nécessaires sont présentes dans formData
+    // Valider que toutes les données nécessaires sont présentes dans horoscopeFormData
     const {
       date,
       time,
@@ -95,7 +96,7 @@ export default function HoroscopePage() {
       language,
       aspectLevels,
       customOrbs,
-    } = formData;
+    } = horoscopeFormData;
     if (
       !date ||
       !time ||
@@ -132,6 +133,8 @@ export default function HoroscopePage() {
       language: language,
     });
     setHoroscope(horoscope);
+    // save Horo in db
+    saveHoroscope(horoscope);
     // Appeler la fonction pour générer le diagramme horoscope
     generateHoroscope();
   };
@@ -306,7 +309,7 @@ export default function HoroscopePage() {
                     name="major"
                     type="checkbox"
                     className="form-checkbox mr-2 text-black"
-                    defaultChecked={formData.aspectLevels.major} // Set defaultChecked based on initial state
+                    defaultChecked={horoscopeFormData.aspectLevels.major} // Set defaultChecked based on initial state
                     onChange={handleChange}
                   />
                   <span>Major</span>
@@ -317,7 +320,7 @@ export default function HoroscopePage() {
                     name="minor"
                     type="checkbox"
                     className="form-checkbox mr-2 text-black"
-                    defaultChecked={formData.aspectLevels.minor} // Set defaultChecked based on initial state
+                    defaultChecked={horoscopeFormData.aspectLevels.minor} // Set defaultChecked based on initial state
                     onChange={handleChange}
                   />
                   <span>Minor</span>
