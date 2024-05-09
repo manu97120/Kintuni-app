@@ -9,3 +9,5 @@ CREATE TABLE horoscopes (
     aspect_levels JSONB NOT NULL,
     custom_orbs JSONB NOT NULL
 );
+ALTER TABLE horoscopes
+ADD COLUMN "time" TIME NOT NULL;

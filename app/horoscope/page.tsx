@@ -1,11 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment-timezone";
-import DateTimeMUI from "@/app/ui/natalChartSearch";
+// import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
 // import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
 import { saveHoroscope } from "@/app/lib/actions_db";
+// import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 interface AspectLevels {
   major: boolean;
@@ -38,6 +40,27 @@ export default function HoroscopePage() {
       "semi-sextile": 0,
     },
   });
+  const inputRefs = {
+    date: useRef(null),
+    time: useRef(),
+    latitude: useRef(""),
+    longitude: useRef(""),
+    houseSystem: useRef("placidus"),
+    zodiacSystem: useRef("placidus"),
+    language: useRef("en"),
+    aspectLevels_major: useRef(true),
+    aspectLevels_minor: useRef(true),
+    customOrbs_conjunction: useRef(7),
+    customOrbs_opposition: useRef(0),
+    customOrbs_trine: useRef(0),
+    customOrbs_square: useRef(0),
+    customOrbs_sextile: useRef(0),
+    customOrbs_quincunx: useRef(0),
+    customOrbs_quintile: useRef(0),
+    customOrbs_septile: useRef(0),
+    customOrbs_semi_square: useRef(0),
+    customOrbs_semi_sextile: useRef(0),
+  };
   const [horoscope, setHoroscope] = useState<Horoscope | null>(null);
   useEffect(() => {
     loadLanguageSelect();
@@ -134,9 +157,10 @@ export default function HoroscopePage() {
     });
     setHoroscope(horoscope);
     // save Horo in db
-    saveHoroscope(horoscope);
+    saveHoroscope(horoscopeFormData);
     // Appeler la fonction pour générer le diagramme horoscope
     generateHoroscope();
+    redirect("/horoscope");
   };
 
   const loadUI = () => {
@@ -173,15 +197,15 @@ export default function HoroscopePage() {
   // Function to generate horoscope chart
   const generateHoroscope = () => {
     // Call necessary functions to generate horoscope chart
+    if (horoscope) {
+      console.log("::: Horoscope generated", horoscope);
+      console.log("CelestialBodies.all", horoscope.CelestialBodies);
+      console.log("CelestialBodies.all", horoscope.CelestialPoints);
+      console.log("CelestialBodies.all", horoscope.ZodiacCusps);
+    }
     // Example: horoscope.generateChart()
   };
 
-  if (horoscope) {
-    console.log("::: Horoscope generated", horoscope);
-    console.log("CelestialBodies.all", horoscope.CelestialBodies);
-    console.log("CelestialBodies.all", horoscope.CelestialPoints);
-    console.log("CelestialBodies.all", horoscope.ZodiacCusps);
-  }
   // Additional DOM manipulation functions can go here
 
   return (
