@@ -6,10 +6,10 @@ import { Horoscope } from './circularNatalHoro';
 
 const HoroscopeSchema = z.object({
   id: z.string(),
-  customerId: z.string(),
+  // customerId: z.string(),
   date: z.string(),
-  latitude: z.number(),
-  longitude: z.number(),
+  latitude: z.coerce.number(),
+  longitude: z.coerce.number(),
   houseSystem: z.string(),
   zodiacSystem: z.string(),
   language: z.string(),
@@ -18,20 +18,20 @@ const HoroscopeSchema = z.object({
     minor: z.boolean(),
   }),
   customOrbs: z.object({
-    conjunction: z.number(),
-    opposition: z.number(),
-    trine: z.number(),
-    square: z.number(),
-    sextile: z.number(),
-    quincunx: z.number(),
-    quintile: z.number(),
-    septile: z.number(),
-    "semi-square": z.number(),
-    "semi-sextile": z.number(),
+    conjunction: z.coerce.number(),
+    opposition: z.coerce.number(),
+    trine: z.coerce.number(),
+    square: z.coerce.number(),
+    sextile: z.coerce.number(),
+    quincunx: z.coerce.number(),
+    quintile: z.coerce.number(),
+    septile: z.coerce.number(),
+    "semi-square": z.coerce.number(),
+    "semi-sextile": z.coerce.number(),
   }),
 });
 
-const CreateHoroscope = HoroscopeSchema.omit({ id: true, customerId: true });
+const CreateHoroscope = HoroscopeSchema.omit({ id: true });
 
 // Define a function to save the horoscope
 export async function saveHoroscope(horoscope:Horoscope) {
