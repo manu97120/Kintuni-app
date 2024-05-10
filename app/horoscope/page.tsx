@@ -82,6 +82,8 @@ export default function HoroscopePage({
     // if (time) sethoroscopeFormData((prevData) => ({ ...prevData, time }));
     if (resLongitude) sethoroscopeFormData((prevData) => ({ ...prevData, longitude: resLongitude }));
     if (resLattitude) sethoroscopeFormData((prevData) => ({ ...prevData, latitude: resLattitude }));
+    console.log("::: useEffect searchParams for resL update horoscopeFormData:",horoscopeFormData);
+    
   }, [searchParams]);
 
   useEffect(()=>{
