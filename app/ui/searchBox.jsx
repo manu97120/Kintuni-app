@@ -8,21 +8,21 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
-export function MapBoxAddressAutofill() {
-  console.log(`>>> SearchBox Client log`);
-  console.log(`SearchBox acessToken = ${accessToken}`);
+// export function MapBoxAddressAutofill() {
+//   console.log(`>>> SearchBox Client log`);
+//   console.log(`SearchBox acessToken = ${accessToken}`);
 
-  return (
-    <AddressAutofill accessToken={accessToken}>
-      <input
-        type="text"
-        name="address"
-        autoComplete="street-address"
-        className="text-black"
-      />
-    </AddressAutofill>
-  );
-}
+//   return (
+//     <AddressAutofill accessToken={accessToken}>
+//       <input
+//         type="text"
+//         name="address"
+//         autoComplete="street-address"
+//         className="text-black"
+//       />
+//     </AddressAutofill>
+//   );
+// }
 
 export default function MapboxSearchBox() {
   // const session_token = crypto.randomUUID(); // automatic session token

@@ -1,20 +1,35 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import moment from "moment-timezone";
 // import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
 // import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
-import { saveHoroscope } from "@/app/lib/actions_db";
-// import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import MapboxSearchBox from "@/app/ui/searchBox";
+// import { saveHoroscope } from "@/app/lib/actions_db";
 
 interface AspectLevels {
   major: boolean;
   minor: boolean;
 }
+// Define the type for the `planets` object
+interface Planets {
+  [key: string]: number[]; // Assuming degrees are stored as an array of numbers
+}
 
-export default function HoroscopePage() {
+export const dynamic = "force-dynamic";
+
+export default function HoroscopePage({
+  // add aync if await data fetching inside component
+  searchParams,
+}: {
+  searchParams?: {
+    addressQuery?: string;
+    longitude?: string;
+    lattitude?: string;
+  }
+}) {
+  
   const [horoscopeFormData, sethoroscopeFormData] = useState({
     date: moment().format("YYYY-MM-DD"),
     time: moment().format("HH:mm:00"),
@@ -40,28 +55,11 @@ export default function HoroscopePage() {
       "semi-sextile": 0,
     },
   });
-  const inputRefs = {
-    date: useRef(null),
-    time: useRef(),
-    latitude: useRef(""),
-    longitude: useRef(""),
-    houseSystem: useRef("placidus"),
-    zodiacSystem: useRef("placidus"),
-    language: useRef("en"),
-    aspectLevels_major: useRef(true),
-    aspectLevels_minor: useRef(true),
-    customOrbs_conjunction: useRef(7),
-    customOrbs_opposition: useRef(0),
-    customOrbs_trine: useRef(0),
-    customOrbs_square: useRef(0),
-    customOrbs_sextile: useRef(0),
-    customOrbs_quincunx: useRef(0),
-    customOrbs_quintile: useRef(0),
-    customOrbs_septile: useRef(0),
-    customOrbs_semi_square: useRef(0),
-    customOrbs_semi_sextile: useRef(0),
-  };
+
+  
+  
   const [horoscope, setHoroscope] = useState<Horoscope | null>(null);
+
   useEffect(() => {
     loadLanguageSelect();
     loadUI();
@@ -70,6 +68,25 @@ export default function HoroscopePage() {
   useEffect(() => {
     loadTableTitles();
   }, [horoscopeFormData.language]);
+
+  // Function to update form data from URL params
+  useEffect(() => {
+    // declare and create variable on condition statement
+  // const resAddressQuery = searchParams?.addressQuery || "";
+  const resLongitude = searchParams?.longitude || "";
+  const resLattitude = searchParams?.lattitude || "";
+    // const { date, time, longitude: urlLongitude, latitude: urlLatitude } = query;
+    // const { resAddressQuery,resLongitude, resLattitude } = searchParams;
+
+    // if (date) sethoroscopeFormData((prevData) => ({ ...prevData, date }));
+    // if (time) sethoroscopeFormData((prevData) => ({ ...prevData, time }));
+    if (resLongitude) sethoroscopeFormData((prevData) => ({ ...prevData, longitude: resLongitude }));
+    if (resLattitude) sethoroscopeFormData((prevData) => ({ ...prevData, latitude: resLattitude }));
+  }, [searchParams]);
+
+  useEffect(()=>{
+    generateHoroscope();
+  },[horoscope]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -156,11 +173,14 @@ export default function HoroscopePage() {
       language: language,
     });
     setHoroscope(horoscope);
-    // save Horo in db
-    saveHoroscope(horoscopeFormData);
+    
     // Appeler la fonction pour générer le diagramme horoscope
     generateHoroscope();
-    redirect("/horoscope");
+
+    // save horoscopeFormData in db
+    // saveHoroscope(horoscopeFormData);
+    // revalidatePath("/horoscope");
+    // redirect("/horoscope");
   };
 
   const loadUI = () => {
@@ -199,9 +219,28 @@ export default function HoroscopePage() {
     // Call necessary functions to generate horoscope chart
     if (horoscope) {
       console.log("::: Horoscope generated", horoscope);
-      console.log("CelestialBodies.all", horoscope.CelestialBodies);
-      console.log("CelestialBodies.all", horoscope.CelestialPoints);
-      console.log("CelestialBodies.all", horoscope.ZodiacCusps);
+      // console.log("CelestialBodies.all", horoscope.CelestialBodies);
+      // console.log("CelestialBodies.all", horoscope.CelestialPoints);
+      // console.log("CelestialBodies.all", horoscope.ZodiacCusps);
+      const planets: Planets = {};
+      horoscope.CelestialBodies.all.forEach((bodie:any)=>{
+        // let label = bodie.label;
+        const degrees = bodie.ChartPosition.Ecliptic.DecimalDegrees;
+        planets[bodie.label] = [degrees];
+      });
+      const cusps = horoscope._houses.map((house:any) => house.ChartPosition.StartPosition.Ecliptic.DecimalDegrees);
+      const dataForHoroscopeChart = {planets,cusps};
+      console.log("::: dataForHoroscopeChart generated for triger SVG Chart",dataForHoroscopeChart);
+
+      
+      const chart = new Chart( 'paper', 800, 800);
+        console.log(`CHART variable ::: `);
+        //const t = JSON.stringify(chart);
+        console.log(chart);
+      const radix = chart.radix(dataForHoroscopeChart);
+        console.log(`RADIX variable ::: `);
+        console.log(radix);
+        radix.aspects();
     }
     // Example: horoscope.generateChart()
   };
@@ -222,6 +261,10 @@ export default function HoroscopePage() {
           </div>
           <form id="form" className="max-w-lg mx-auto" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* <div className="mb-4"> */}
+            <MapboxSearchBox />
+            <br/>
+            {/* </div> */}
               <div className="mb-4">
                 <label htmlFor="latitude" className="block">
                   Latitude (decimal)
@@ -234,7 +277,9 @@ export default function HoroscopePage() {
                   step="any"
                   min="-90"
                   max="90"
-                  defaultValue=""
+                  // defaultValue=""
+                  value={horoscopeFormData.latitude}
+
                   onChange={handleChange}
                 />
               </div>
@@ -250,7 +295,8 @@ export default function HoroscopePage() {
                   step="any"
                   min="-180"
                   max="180"
-                  defaultValue=""
+                  // defaultValue=""
+                  value={horoscopeFormData.longitude}
                   onChange={handleChange}
                 />
               </div>
@@ -320,7 +366,7 @@ export default function HoroscopePage() {
                 onChange={handleChange}
                 className="form-select text-black"
               >
-                <option value="placidus">Placidius</option>
+                <option value="placidus">Placidus</option>
               </select>
             </div>
             <div className="mb-4">
@@ -544,6 +590,20 @@ export default function HoroscopePage() {
             </small>
           </form>
         </div>
+        <>
+       
+        {
+            horoscope && 
+            <>
+                 <h2>Astro Chart</h2>
+                {/* <div id="paper" min-height={400} min-width={400} onLoad={onLoad}></div> */}
+                {/* <div id="paper" min-height={400} min-width={400}></div> */}
+                <div id="paper"></div><script src="https://unpkg.com/@astrodraw/astrochart"></script>
+            </>
+            
+        }
+        
+        </>
       </div>
     </>
   );

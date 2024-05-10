@@ -1,8 +1,8 @@
 'use server';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-// import { revalidatePath } from 'next/cache';
-// import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 // import { Horoscope } from './circularNatalHoro';
 
 const HoroscopeSchema = z.object({
@@ -88,12 +88,11 @@ export async function saveHoroscope(horoscopeFormData: {
 
     // Log the result
     console.log('Horoscope saved successfully:', result);
-    // to check to adjust app comportement on submittion
-    // revalidatePath("/horoscope");
-    // redirect("/horoscope");
 
   } catch (error) {
     console.error('Error saving horoscope:', error);
   }
-
+  // to check to adjust app comportement on submittion
+    // revalidatePath('/horoscope');
+    // redirect('/horoscope');
 }
