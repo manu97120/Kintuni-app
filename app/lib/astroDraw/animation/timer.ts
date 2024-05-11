@@ -2,7 +2,7 @@ class Timer {
   debug: boolean
   callback: (delta: number) => void
   boundTick_: FrameRequestCallback
-  lastGameLoopFrame: number
+  lastGameLoopFrame!: number
   requestID_: number | undefined
   constructor(callback: (delta: number) => void, debug: boolean) {
     if (typeof callback !== 'function') {

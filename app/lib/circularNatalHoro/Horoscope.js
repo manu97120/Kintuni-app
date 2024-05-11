@@ -55,7 +55,7 @@ import {
 
 export class Horoscope {
   constructor({
-    origin = null,
+    origin ,
     language = 'en',
     houseSystem = 'placidus',
     zodiac = 'tropical',

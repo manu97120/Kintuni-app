@@ -124,11 +124,10 @@ export default function MapboxSearchBox() {
       id="srcBox"
       name="srcBox"
       input="srcBox"
-      placeholder="Enter your Address Query"
-      // options={
-      //  { language:"fr",
-      //   country:"FR"}
-      // }
+      placeholder="Enter your Address"
+      options={
+        {id:'MboxSearch'}
+      }
       // key={1}
       // select={}
       

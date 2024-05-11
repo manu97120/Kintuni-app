@@ -1,4 +1,4 @@
-import { Origin, Horoscope } from "circular-natal-horoscope-js";
+// import { Origin, Horoscope } from "circular-natal-horoscope-js";
 
 //////////
 // Origin
@@ -16,15 +16,15 @@ import { Origin, Horoscope } from "circular-natal-horoscope-js";
 // * float longitude = longitude in decimal format (-180.00...180.00)
 
 // December 1st, 2020 - 430pm
-const origin = new Origin({
-  year: 2020,
-  month: 11, // 0 = January, 11 = December!
-  date: 1,
-  hour: 16,
-  minute: 30,
-  latitude: 40.0,
-  longitude: -70.0,
-});
+// const origin = new Origin({
+//   year: 2020,
+//   month: 11, // 0 = January, 11 = December!
+//   date: 1,
+//   hour: 16,
+//   minute: 30,
+//   latitude: 40.0,
+//   longitude: -70.0,
+// });
 
 //////////
 // Horoscope
@@ -47,16 +47,16 @@ const origin = new Origin({
 // * All usable keys found in ./src/constant.js under BODIES, POINTS, ANGLES
 
 
-const horoscope = new Horoscope({
-    origin: new Origin({...}),
-    houseSystem: "whole-sign",
-    zodiac: "tropical",
-    aspectPoints: ['bodies', 'points', 'angles'],
-    aspectWithPoints: ['bodies', 'points', 'angles'],
-    aspectTypes: ["major", "minor"],
-    customOrbs: {},
-    language: 'en'
-  });
+// const horoscope = new Horoscope({
+//     origin: new Origin({...}),
+//     houseSystem: "whole-sign",
+//     zodiac: "tropical",
+//     aspectPoints: ['bodies', 'points', 'angles'],
+//     aspectWithPoints: ['bodies', 'points', 'angles'],
+//     aspectTypes: ["major", "minor"],
+//     customOrbs: {},
+//     language: 'en'
+//   });
 
 export default function CircularNatalHoroscope(){
 

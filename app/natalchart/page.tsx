@@ -1,4 +1,3 @@
-  import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import AstroChart from "@/app/ui/astroChart";
 import MapboxSearchBox from "@/app/ui/searchBox";
 import DateTimeMUI from "@/app/ui/natalChartSearch";
@@ -25,8 +24,8 @@ export default function NatalChart({
 }) {
   // declare and create variable on condition statement
   const resAddressQuery = searchParams?.addressQuery || "";
-  const resLongitude = searchParams?.longitude || "";
-  const resLattitude = searchParams?.lattitude || "";
+  const resLongitude = parseInt(searchParams?.longitude || "");
+  const resLattitude = parseInt(searchParams?.lattitude || "");
   // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
   // params_retrieveFromUrl += coordinates;
   // const session_token = crypto.randomUUID();
@@ -38,57 +37,6 @@ export default function NatalChart({
   );
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
   console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
-
-  // console.log(`::: session_token = ${session_token}`);
-
-  // This request should be refetched on every request.
-  // Similar to `getServerSideProps`.
-  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
-  // Fetch via GOOGLE MAP
-  // const dynamicData = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address={url_rewrited}&key=GOOGLE_MAPS_API_KEY`, { cache: 'no-store' })
-  // Fetch via MAPBOX
-  // const resultSuggest = await fetch(`https://api.mapbox.com/search/searchbox/v1/suggest?q={url_rewrited}`, { cache: 'no-store' })
-
-  const { year, month, day, hour, minute, latitude, longitude } = {
-    year: 2020,
-    month: 11, // 0 = January, 11 = December!
-    day: 1,
-    hour: 16,
-    minute: 30,
-    latitude: 40.0,
-    longitude: -70.0,
-  };
-  const origin = new Origin({
-    year: parseInt(year.toString()),
-    month: parseInt(month) - 1, // La bibliothèque attend que janvier = 0
-    date: parseInt(day),
-    hour: parseInt(hour),
-    minute: parseInt(minute),
-    latitude: parseFloat(latitude),
-    longitude: parseFloat(longitude),
-  });
-
-  const horoscope = new Horoscope({
-    origin: origin,
-    houseSystem: "Placidus",
-    zodiac: "tropical",
-    aspectTypes: [
-      "conjunction",
-      "opposition",
-      "trine",
-      "square",
-      "sextile",
-      "semi-sextile",
-    ],
-  });
-
-  // Store the generated horoscope
-  //lastHoroscope = horoscope;
-  // console.log(horoscope);
-  console.log("::: Natal Chart SERVER LOG :::");
-  console.log(
-    "Variable horoscope from natal chart moving on server side only log server can see",
-  );
 
   // const data = JSON.stringify(horoscope);
   // Here how to bind data

@@ -40,7 +40,7 @@ export const getDescriptionPosition = function (point: { x: number; y: number },
 
   texts.forEach((text, idx) => {
     result.push({ text, x: posX, y: posY + (astrology.COLLISION_RADIUS / RATION * astrology.SYMBOL_SCALE * idx) })
-  }, this)
+  })
 
   return result
 }

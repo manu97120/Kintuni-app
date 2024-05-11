@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import moment from "moment-timezone";
 // import DateTimeMUI from "@/app/ui/natalChartSearch";
 import { Chart } from "@astrodraw/astrochart";
-// import { Origin, Horoscope } from "circular-natal-horoscope-js";
 import { Origin, Horoscope } from "@/app/lib/circularNatalHoro";
 import MapboxSearchBox from "@/app/ui/searchBox";
 // import { saveHoroscope } from "@/app/lib/actions_db";
@@ -29,7 +28,7 @@ export default function HoroscopePage({
     lattitude?: string;
   }
 }) {
-  
+
   const [horoscopeFormData, sethoroscopeFormData] = useState({
     date: moment().format("YYYY-MM-DD"),
     time: moment().format("HH:mm:00"),
@@ -56,8 +55,8 @@ export default function HoroscopePage({
     },
   });
 
-  
-  
+
+
   const [horoscope, setHoroscope] = useState<Horoscope | null>(null);
 
   useEffect(() => {
@@ -72,9 +71,9 @@ export default function HoroscopePage({
   // Function to update form data from URL params
   useEffect(() => {
     // declare and create variable on condition statement
-  // const resAddressQuery = searchParams?.addressQuery || "";
-  const resLongitude = searchParams?.longitude || "";
-  const resLattitude = searchParams?.lattitude || "";
+    // const resAddressQuery = searchParams?.addressQuery || "";
+    const resLongitude = searchParams?.longitude;
+    const resLattitude = searchParams?.lattitude;
     // const { date, time, longitude: urlLongitude, latitude: urlLatitude } = query;
     // const { resAddressQuery,resLongitude, resLattitude } = searchParams;
 
@@ -82,22 +81,21 @@ export default function HoroscopePage({
     // if (time) sethoroscopeFormData((prevData) => ({ ...prevData, time }));
     if (resLongitude) sethoroscopeFormData((prevData) => ({ ...prevData, longitude: resLongitude }));
     if (resLattitude) sethoroscopeFormData((prevData) => ({ ...prevData, latitude: resLattitude }));
-    console.log("::: useEffect searchParams for resL update horoscopeFormData:",horoscopeFormData);
-    
+    console.log("::: useEffect searchParams for resL update horoscopeFormData:", horoscopeFormData);
+
   }, [searchParams]);
 
-  useEffect(()=>{
+  useEffect(() => {
     generateHoroscope();
-  },[horoscope]);
+  }, [horoscope]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value, type, checked } = e.target;
-    console.log("horoscopeFormData updated in handleChange:", horoscopeFormData); // Logging horoscopeFormData
+    const { name, value, type } = e.target as HTMLInputElement; // Explicitly type the event target to HTMLInputElement
 
-    if (name === "major" || name === "minor") {
-      // Mise à jour des niveaux d'aspect
+    if (type === "checkbox") {
+      const checked = (e.target as HTMLInputElement).checked;
       sethoroscopeFormData((prevState) => ({
         ...prevState,
         aspectLevels: {
@@ -106,23 +104,20 @@ export default function HoroscopePage({
         },
       }));
     } else if (name in horoscopeFormData.customOrbs) {
-      // Mise à jour des orbes personnalisés
       sethoroscopeFormData((prevState) => ({
         ...prevState,
         customOrbs: {
           ...prevState.customOrbs,
-          [name]: parseInt(value) || 0, // Convertir la valeur en nombre ou 0 par défaut
+          [name]: parseInt(value) || 0,
         },
       }));
     } else {
-      // Mise à jour des autres champs du formulaire
       sethoroscopeFormData((prevState) => ({
         ...prevState,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: value,
       }));
     }
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("horoscopeFormData submitted:", horoscopeFormData); // Logging horoscopeFormData
@@ -162,6 +157,10 @@ export default function HoroscopePage({
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
     });
+    // if (!origin) {
+    //   console.error("Error: Origin is null or undefined.");
+    //   return; // or handle the error appropriately
+    // }
     console.log("House System:", houseSystem);
     // Créer une instance d'Horoscope
     const horoscope = new Horoscope({
@@ -174,8 +173,9 @@ export default function HoroscopePage({
       customOrbs: customOrbs,
       language: language,
     });
+    // save state of horoscope generated in state client component when submitting
     setHoroscope(horoscope);
-    
+
     // Appeler la fonction pour générer le diagramme horoscope
     generateHoroscope();
 
@@ -225,24 +225,24 @@ export default function HoroscopePage({
       // console.log("CelestialBodies.all", horoscope.CelestialPoints);
       // console.log("CelestialBodies.all", horoscope.ZodiacCusps);
       const planets: Planets = {};
-      horoscope.CelestialBodies.all.forEach((bodie:any)=>{
+      horoscope.CelestialBodies.all.forEach((bodie: any) => {
         // let label = bodie.label;
         const degrees = bodie.ChartPosition.Ecliptic.DecimalDegrees;
         planets[bodie.label] = [degrees];
       });
-      const cusps = horoscope._houses.map((house:any) => house.ChartPosition.StartPosition.Ecliptic.DecimalDegrees);
-      const dataForHoroscopeChart = {planets,cusps};
-      console.log("::: dataForHoroscopeChart generated for triger SVG Chart",dataForHoroscopeChart);
+      const cusps = horoscope._houses.map((house: any) => house.ChartPosition.StartPosition.Ecliptic.DecimalDegrees);
+      const dataForHoroscopeChart = { planets, cusps };
+      console.log("::: dataForHoroscopeChart generated for triger SVG Chart", dataForHoroscopeChart);
 
-      
-      const chart = new Chart( 'paper', 800, 800);
-        console.log(`CHART variable ::: `);
-        //const t = JSON.stringify(chart);
-        console.log(chart);
+
+      const chart = new Chart('paper', 800, 800);
+      console.log(`CHART variable ::: `);
+      //const t = JSON.stringify(chart);
+      console.log(chart);
       const radix = chart.radix(dataForHoroscopeChart);
-        console.log(`RADIX variable ::: `);
-        console.log(radix);
-        radix.aspects();
+      console.log(`RADIX variable ::: `);
+      console.log(radix);
+      radix.aspects();
     }
     // Example: horoscope.generateChart()
   };
@@ -263,10 +263,10 @@ export default function HoroscopePage({
           </div>
           <form id="form" className="max-w-lg mx-auto" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* <div className="mb-4"> */}
-            <MapboxSearchBox />
-            <br/>
-            {/* </div> */}
+              {/* <div className="mb-4"> */}
+              <MapboxSearchBox />
+              <br />
+              {/* </div> */}
               <div className="mb-4">
                 <label htmlFor="latitude" className="block">
                   Latitude (decimal)
@@ -593,18 +593,16 @@ export default function HoroscopePage({
           </form>
         </div>
         <>
-       
-        {
-            horoscope && 
+
+          {
+            horoscope &&
             <>
-                 <h2>Astro Chart</h2>
-                {/* <div id="paper" min-height={400} min-width={400} onLoad={onLoad}></div> */}
-                {/* <div id="paper" min-height={400} min-width={400}></div> */}
-                <div id="paper"></div><script src="https://unpkg.com/@astrodraw/astrochart"></script>
+              <h2>Astro Chart</h2>
+              <div id="paper"></div>
             </>
-            
-        }
-        
+
+          }
+
         </>
       </div>
     </>

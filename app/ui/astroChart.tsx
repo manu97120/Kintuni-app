@@ -49,7 +49,9 @@ export default function AstroChart(){
                  <h2>Astro Chart</h2>
                 {/* <div id="paper" min-height={400} min-width={400} onLoad={onLoad}></div> */}
                 {/* <div id="paper" min-height={400} min-width={400}></div> */}
-                <div id="paper"></div><script src="https://unpkg.com/@astrodraw/astrochart"></script>
+                <div id="paper"></div>
+                {/* trigger a module issue of self is not defined
+                <script src="https://unpkg.com/@astrodraw/astrochart"></script> */}
             </>
             
         }

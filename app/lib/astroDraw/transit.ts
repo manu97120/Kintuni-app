@@ -30,7 +30,7 @@ class Transit {
   shift: number
   universe: Element
   context: this
-  locatedPoints: LocatedPoint[]
+  locatedPoints!: LocatedPoint[]
   constructor(radix: Radix, data: AstroData, settings: Settings) {
     // Validate data
     const status = validate(data)
@@ -107,13 +107,13 @@ class Transit {
     if (this.settings.DEBUG) console.log('Transit count of points: ' + this.locatedPoints.length)
     if (this.settings.DEBUG) console.log('Transit located points:\n' + JSON.stringify(this.locatedPoints))
 
-    this.locatedPoints.forEach(function (point) {
+    this.locatedPoints.forEach( (point) => {
       // draw pointer
       startPosition = getPointPosition(this.cx, this.cy, pointerRadius, planets[point.name][0] + this.shift, this.settings)
       endPosition = getPointPosition(this.cx, this.cy, pointerRadius + this.rulerRadius / 2, planets[point.name][0] + this.shift, this.settings)
       const pointer = this.paper.line(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
       pointer.setAttribute('stroke', this.settings.CIRCLE_COLOR)
-      pointer.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+      pointer.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE).toString())
       wrapper.appendChild(pointer)
 
       // draw pointer line
@@ -122,7 +122,7 @@ class Transit {
         endPosition = getPointPosition(this.cx, this.cy, this.pointRadius - (this.settings.COLLISION_RADIUS * this.settings.SYMBOL_SCALE), point.angle, this.settings)
         const line = this.paper.line(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
         line.setAttribute('stroke', this.settings.LINE_COLOR)
-        line.setAttribute('stroke-width', 0.5 * (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+        line.setAttribute('stroke-width', (0.5 * (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE)).toString())
         wrapper.appendChild(line)
       }
 
@@ -134,7 +134,7 @@ class Transit {
       // draw point descriptions
       let textsToShow = [(Math.floor(planets[point.name][0]) % 30).toString()]
 
-      const zodiac = new Zodiac(this.data.cusps, this.settings)
+      const zodiac = new Zodiac(this.data.cusps!, this.settings)
       if (planets[point.name][1] && zodiac.isRetrograde(planets[point.name][1])) {
         textsToShow.push('R')
       } else {
@@ -143,8 +143,8 @@ class Transit {
       textsToShow = textsToShow.concat(zodiac.getDignities({ name: point.name, position: planets[point.name][0] }, this.settings.DIGNITIES_EXACT_EXALTATION_DEFAULT).join(','))
 
       const pointDescriptions = getDescriptionPosition(point, textsToShow, this.settings)
-      pointDescriptions.forEach(function (dsc) {
-        wrapper.appendChild(this.paper.text(dsc.text, dsc.x, dsc.y, this.settings.POINTS_TEXT_SIZE, this.settings.SIGNS_COLOR))
+      pointDescriptions.forEach( (dsc) => {
+        wrapper.appendChild(this.paper.text(dsc.text, dsc.x, dsc.y, this.settings.POINTS_TEXT_SIZE.toString(), this.settings.SIGNS_COLOR))
       }, this)
     }, this)
   }
@@ -212,10 +212,10 @@ class Transit {
     const startRadius = (this.radius + (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO))
     const rays = getRulerPositions(this.cx, this.cy, startRadius, startRadius - this.rulerRadius, this.shift, this.settings)
 
-    rays.forEach(function (ray) {
+    rays.forEach( (ray) => {
       const line = this.paper.line(ray.startX, ray.startY, ray.endX, ray.endY)
       line.setAttribute('stroke', this.settings.CIRCLE_COLOR)
-      line.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+      line.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE).toString())
       wrapper.appendChild(line)
     }, this)
 
@@ -229,10 +229,10 @@ class Transit {
  * Draw aspects
  * @param{Array<Object> | null} customAspects - posible custom aspects to draw;
  */
-  aspects(customAspects: FormedAspect[]): Transit {
+  aspects(customAspects?: FormedAspect[]): Transit {
     const aspectsList = customAspects != null && Array.isArray(customAspects)
       ? customAspects
-      : new AspectCalculator(this.toPoints, this.settings).transit(this.data.planets)
+      : new AspectCalculator(this.toPoints, this.settings).transit(this.data.planets!)
 
     const universe = this.universe
     const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId)
@@ -277,7 +277,7 @@ class Transit {
     getEmptyWrapper(this.universe, this.paper._paperElementId + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId)
 
     const animator = new Animator(this.context, this.settings)
-    animator.animate(data, duration, isReverse, function () {
+    animator.animate(data, duration, isReverse,  () => {
       // animation is finished
       this.data = data
       this.drawPoints()
@@ -287,7 +287,7 @@ class Transit {
       if (typeof callback === 'function') {
         callback()
       }
-    }.bind(this))
+    })
 
     // this
     return this.context

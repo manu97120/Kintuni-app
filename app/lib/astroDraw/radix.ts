@@ -160,22 +160,22 @@ class Radix {
     if (this.settings.DEBUG) console.log('Radix count of points: ' + this.locatedPoints.length)
     if (this.settings.DEBUG) console.log('Radix located points:\n' + JSON.stringify(this.locatedPoints))
 
-    this.locatedPoints.forEach(function (point: LocatedPoint) {
+    this.locatedPoints.forEach( (point: LocatedPoint) => {
       // draw pointer
-      startPosition = getPointPosition(this.cx, this.cy, pointerRadius, this.data.planets[point.name][0] + this.shift, this.settings)
-      endPosition = getPointPosition(this.cx, this.cy, pointerRadius - this.rulerRadius / 2, this.data.planets[point.name][0] + this.shift, this.settings)
+      startPosition = getPointPosition(this.cx, this.cy, pointerRadius, this.data.planets![point.name][0] + this.shift, this.settings)
+      endPosition = getPointPosition(this.cx, this.cy, pointerRadius - this.rulerRadius / 2, this.data.planets![point.name][0] + this.shift, this.settings)
       const pointer = this.paper.line(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
       pointer.setAttribute('stroke', this.settings.CIRCLE_COLOR)
-      pointer.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+      pointer.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE).toString())
       wrapper.appendChild(pointer)
 
       // draw pointer line
-      if (!this.settings.STROKE_ONLY && (this.data.planets[point.name][0] + this.shift) !== point.angle) {
+      if (!this.settings.STROKE_ONLY && (this.data.planets![point.name][0] + this.shift) !== point.angle) {
         startPosition = endPosition
         endPosition = getPointPosition(this.cx, this.cy, this.pointRadius + (this.settings.COLLISION_RADIUS * this.settings.SYMBOL_SCALE), point.angle, this.settings)
         const line = this.paper.line(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
         line.setAttribute('stroke', this.settings.LINE_COLOR)
-        line.setAttribute('stroke-width', 0.5 * (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+        line.setAttribute('stroke-width',( 0.5 * (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE)).toString())
         wrapper.appendChild(line)
       }
 
@@ -185,22 +185,22 @@ class Radix {
       wrapper.appendChild(symbol)
 
       // draw point descriptions
-      let textsToShow = [(Math.floor(this.data.planets[point.name][0]) % 30).toString()]
+      let textsToShow = [(Math.floor(this.data.planets![point.name][0]) % 30).toString()]
 
-      const zodiac = new Zodiac(this.data.cusps, this.settings)
+      const zodiac = new Zodiac(this.data.cusps!, this.settings)
 
-      if (this.data.planets[point.name][1] && zodiac.isRetrograde(this.data.planets[point.name][1])) {
+      if (this.data.planets![point.name][1] && zodiac.isRetrograde(this.data.planets![point.name][1])) {
         textsToShow.push('R')
       } else {
         textsToShow.push('')
       }
 
       if (this.settings.SHOW_DIGNITIES_TEXT)
-        textsToShow = textsToShow.concat(zodiac.getDignities({ name: point.name, position: this.data.planets[point.name][0] }, this.settings.DIGNITIES_EXACT_EXALTATION_DEFAULT).join(','))
+        textsToShow = textsToShow.concat(zodiac.getDignities({ name: point.name, position: this.data.planets![point.name][0] }, this.settings.DIGNITIES_EXACT_EXALTATION_DEFAULT).join(','))
 
       const pointDescriptions = getDescriptionPosition(point, textsToShow, this.settings)
-      pointDescriptions.forEach(function (dsc) {
-        wrapper.appendChild(this.paper.text(dsc.text, dsc.x, dsc.y, this.settings.POINTS_TEXT_SIZE, this.settings.SIGNS_COLOR))
+      pointDescriptions.forEach( (dsc) => {
+        wrapper.appendChild(this.paper.text(dsc.text, dsc.x, dsc.y, this.settings.POINTS_TEXT_SIZE.toString(), this.settings.SIGNS_COLOR))
       }, this)
     }, this)
   }
@@ -223,41 +223,41 @@ class Radix {
     let startPosition
     let endPosition
 
-    [AS, IC, DC, MC].forEach(function (i) {
+    [AS, IC, DC, MC].forEach( (i) => {
       let textPosition
       // overlap
-      startPosition = getPointPosition(this.cx, this.cy, this.radius, this.data.cusps[i] + this.shift, this.settings)
-      endPosition = getPointPosition(this.cx, this.cy, axisRadius, this.data.cusps[i] + this.shift, this.settings)
+      startPosition = getPointPosition(this.cx, this.cy, this.radius, this.data.cusps![i] + this.shift, this.settings)
+      endPosition = getPointPosition(this.cx, this.cy, axisRadius, this.data.cusps![i] + this.shift, this.settings)
       overlapLine = this.paper.line(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
       overlapLine.setAttribute('stroke', this.settings.LINE_COLOR)
-      overlapLine.setAttribute('stroke-width', (this.settings.SYMBOL_AXIS_STROKE * this.settings.SYMBOL_SCALE))
+      overlapLine.setAttribute('stroke-width', (this.settings.SYMBOL_AXIS_STROKE * this.settings.SYMBOL_SCALE).toString())
       wrapper.appendChild(overlapLine)
 
       // As
       if (i === AS) {
         // Text
-        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (20 * this.settings.SYMBOL_SCALE), this.data.cusps[i] + this.shift, this.settings)
+        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (20 * this.settings.SYMBOL_SCALE), this.data.cusps![i] + this.shift, this.settings)
         wrapper.appendChild(this.paper.getSymbol(this.settings.SYMBOL_AS, textPosition.x, textPosition.y))
       }
 
       // Ds
       if (i === DC) {
         // Text
-        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (2 * this.settings.SYMBOL_SCALE), this.data.cusps[i] + this.shift, this.settings)
+        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (2 * this.settings.SYMBOL_SCALE), this.data.cusps![i] + this.shift, this.settings)
         wrapper.appendChild(this.paper.getSymbol(this.settings.SYMBOL_DS, textPosition.x, textPosition.y))
       }
 
       // Ic
       if (i === IC) {
         // Text
-        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (10 * this.settings.SYMBOL_SCALE), this.data.cusps[i] - 2 + this.shift, this.settings)
+        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (10 * this.settings.SYMBOL_SCALE), this.data.cusps![i] - 2 + this.shift, this.settings)
         wrapper.appendChild(this.paper.getSymbol(this.settings.SYMBOL_IC, textPosition.x, textPosition.y))
       }
 
       // Mc
       if (i === MC) {
         // Text
-        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (10 * this.settings.SYMBOL_SCALE), this.data.cusps[i] + 2 + this.shift, this.settings)
+        textPosition = getPointPosition(this.cx, this.cy, axisRadius + (10 * this.settings.SYMBOL_SCALE), this.data.cusps![i] + 2 + this.shift, this.settings)
         wrapper.appendChild(this.paper.getSymbol(this.settings.SYMBOL_MC, textPosition.x, textPosition.y))
       }
     }, this)
@@ -297,14 +297,14 @@ class Radix {
         this.settings
       )
 
-      lines.forEach(function (line) {
+      lines.forEach( (line) => {
         const newLine = this.paper.line(line.startX, line.startY, line.endX, line.endY)
         newLine.setAttribute('stroke', this.settings.LINE_COLOR)
 
         if (mainAxis.includes(i)) {
-          newLine.setAttribute('stroke-width', (this.settings.SYMBOL_AXIS_STROKE * this.settings.SYMBOL_SCALE))
+          newLine.setAttribute('stroke-width', (this.settings.SYMBOL_AXIS_STROKE * this.settings.SYMBOL_SCALE).toString())
         } else {
-          newLine.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+          newLine.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE).toString())
         }
 
         wrapper.appendChild(newLine)
@@ -327,7 +327,7 @@ class Radix {
   aspects(customAspects?: FormedAspect[] | null): Radix {
     const aspectsList = customAspects != null && Array.isArray(customAspects)
       ? customAspects
-      : new AspectCalculator(this.toPoints).radix(this.data.planets)
+      : new AspectCalculator(this.toPoints).radix(this.data.planets!)
 
     const universe = this.universe
     const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper.root.id)
@@ -382,10 +382,10 @@ class Radix {
     const startRadius = (this.radius - (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO + this.rulerRadius))
     const rays = getRulerPositions(this.cx, this.cy, startRadius, startRadius + this.rulerRadius, this.shift, this.settings)
 
-    rays.forEach(function (ray) {
+    rays.forEach( (ray) => {
       const line = this.paper.line(ray.startX, ray.startY, ray.endX, ray.endY)
       line.setAttribute('stroke', this.settings.CIRCLE_COLOR)
-      line.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE))
+      line.setAttribute('stroke-width', (this.settings.CUSPS_STROKE * this.settings.SYMBOL_SCALE).toString())
       wrapper.appendChild(line)
     }, this)
 

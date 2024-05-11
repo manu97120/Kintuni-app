@@ -25,9 +25,9 @@ class Animator {
   timeSinceLoopStart: number
   context: this
   cuspsElement: any
-  data?:  AstroData // During build time !? to avoid err or modify tsconfig.json
-  duration?: number
-  callback?: () => void
+  data!:  AstroData // During build time !? to avoid err or modify tsconfig.json
+  duration!: number
+  callback!: () => void
   constructor (transit: Transit, settings: Settings) {
     this.transit = transit
     this.isReverse = false
@@ -99,7 +99,7 @@ class Animator {
    */
   updateCusps (expectedNumberOfLoops: number): void {
     const deg360 = radiansToDegree(2 * Math.PI)
-    let targetCuspAngle = this.transit.data.cusps[0] - this.data.cusps[0]
+    let targetCuspAngle = this.transit.data.cusps![0] - this.data.cusps![0]
 
     if (targetCuspAngle < 0) {
       targetCuspAngle += deg360

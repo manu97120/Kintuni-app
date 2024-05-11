@@ -1,9 +1,9 @@
 "use server";
 // import { z } from 'zod';
 // import { sql } from '@vercel/postgres';
-import { Schema, model, connect } from "mongoose";
+// import { Schema, model, connect } from "mongoose";
 
-import {NatalChartUserSchema} from "@/app/lib/definitions";
+// import {NatalChartUserSchema} from "@/app/lib/definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -29,7 +29,6 @@ export async function createNatalChart(
 
   // const natalchartSchema = new Schema(NatalChartUserSchema);
 
-  // const { address, date_picker, time_picker, unknown_time, longT, latT } = {
   const rawFormData = {
     addressQuery: addressQuery,
     resLongitude: resLongitude,
@@ -51,7 +50,7 @@ export async function createNatalChart(
   redirect("/natalchart");
 }
 
-export async function createUserProfile(formData: FormData) {
+// export async function createUserProfile() {
   //   const rawFormData = {
   //     customerId: formData.get('name'),
   //     amount: formData.get('lastName'),
@@ -96,6 +95,6 @@ export async function createUserProfile(formData: FormData) {
   //     };
   //   }
 
-  revalidatePath("/natalchart");
-  redirect("/natalchart");
-}
+//   revalidatePath("/natalchart");
+//   redirect("/natalchart");
+// }
