@@ -1,6 +1,7 @@
-import AstroChart from "@/app/ui/astroChart";
+import { Origin, Horoscope } from "circular-natal-horoscope-js";
+
 import MapboxSearchBox from "@/app/ui/searchBox";
-import DateTimeMUI from "@/app/ui/natalChartSearch";
+import DateTimeMUI from "@/app/ui/mui-date-time";
 import { createNatalChart } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
 
@@ -14,32 +15,69 @@ export default function NatalChart({
   searchParams?: {
     addressQuery?: string;
     longitude?: string;
-    lattitude?: string; // cause url tranfert string
-    // date?: Date;
-    // time?: Date;
-    // unknown_time?: 'on' | null;
-    // day?: 'on' | null;
-    // nite?: 'on' | null;
+    latitude?: string; // cause url tranfert string
   };
 }) {
   // declare and create variable on condition statement
-  const resAddressQuery = searchParams?.addressQuery || "";
-  const resLongitude = parseInt(searchParams?.longitude || "");
-  const resLattitude = parseInt(searchParams?.lattitude || "");
-  // let params_retrieveFromUrl = addressQuery.replace(/ /g, "+");
-  // params_retrieveFromUrl += coordinates;
+  const resAddressQuery = searchParams!.addressQuery || "";
+  const resLongitude = searchParams!.longitude || "";
+  const resLattitude = searchParams!.latitude || "";
+
   // const session_token = crypto.randomUUID();
-  console.log(`data to show the svg`);
+
 
   console.log(
-    `::: params retrieve From Url \n addressQuery: ${resAddressQuery} \n 
-    Longitude: ${resLongitude} \n Lattitude: ${resLattitude}`,
+    `::: NatalChart Component params retrieve From Url\n
+    addressQuery: ${resAddressQuery} \n 
+    resLongitude: ${resLongitude} - resLattitude: ${resLattitude}\v`,
   );
   console.log(`::: GOOGLE_MAPS_API_KEY = ${process.env.GOOGLE_MAPS_API_KEY}`);
   console.log(`::: MAPBOX_TOKEN = ${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`);
 
+  // console.log(`::: session_token = ${session_token}`);
+
+  const { year, month, day, hour, minute, latitude, longitude } = {
+    year: 2020,
+    month: 11, // 0 = January, 11 = December!
+    day: 1,
+    hour: 16,
+    minute: 30,
+    latitude: 40.0,
+    longitude: -70.0,
+  };
+  const origin = new Origin({
+    year: parseInt(year.toString()),
+    month: parseInt(month.toString()) - 1, // La bibliothèque attend que janvier = 0
+    date: parseInt(day.toString()),
+    hour: parseInt(hour.toString()),
+    minute: parseInt(minute.toString()),
+    latitude: parseFloat(latitude.toString()),
+    longitude: parseFloat(longitude.toString()),
+  });
+
+  const horoscope = new Horoscope({
+    origin: origin,
+    houseSystem: "Placidus",
+    zodiac: "tropical",
+    aspectTypes: [
+      "conjunction",
+      "opposition",
+      "trine",
+      "square",
+      "sextile",
+      "semi-sextile",
+    ],
+  });
+
+  // Store the generated horoscope
+
+  console.log(
+    "::: Natal Chart page: horoscope instance on server side log only can see"
+  );
+
   // const data = JSON.stringify(horoscope);
   // Here how to bind data
+  // Note that properties types depends of typings from action.ts method
   const CreateNatalChart = createNatalChart.bind(
     null,
     resAddressQuery,
@@ -134,7 +172,7 @@ export default function NatalChart({
       {/* {JSON.stringify(horoscope)} */}
       {/* {data} */}
       <Button type="submit">Create Natal Chart</Button>
-      <AstroChart />
+      
     </form>
   );
 }

@@ -19,8 +19,8 @@ import { redirect } from "next/navigation";
 
 export async function createNatalChart(
   addressQuery: string,
-  resLongitude: number,
-  resLattitude: number,
+  resLongitude: string,
+  resLattitude: string,
   formData: FormData,
 ) {
   // await connect(`${process.env.MONGO_URI}`);
@@ -31,8 +31,8 @@ export async function createNatalChart(
 
   const rawFormData = {
     addressQuery: addressQuery,
-    resLongitude: resLongitude,
-    resLattitude: resLattitude,
+    resLongitude: parseInt(resLongitude),
+    resLattitude: parseInt(resLattitude),
     // srcBox: formData.get("srcBox"),
     longitude: formData.get("longitude"),
     lattitude: formData.get("lattitude"),

@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Menu from "@/app/ui/menu";
 import { Providers } from "./providers";
-import {WrapDateTimeMUI} from "@/app/ui/natalChartSearch";
+import {WrapDateTimeMUI} from "@/app/ui/mui-date-time";
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
             <WrapDateTimeMUI>
               {children}
             </WrapDateTimeMUI>
+            <SpeedInsights />
         </Providers>
         
       </body>
