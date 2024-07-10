@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const accessToken = 'pk.eyJ1IjoibW1idXNpbmVzc29uZSIsImEiOiJjbHR5ZXl5NnAwZjZ0MmpzMXRjNDU5aWEyIn0.7sg6C75pPxBNE1CH_hTXAw';//process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export default function MapboxSearchBox() {
   const [inputV, setInputV] = useState("");

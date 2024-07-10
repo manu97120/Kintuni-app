@@ -360,7 +360,7 @@ export default function HoroForm({
                             <option value="en">English</option>
                             <option value="fr">Français</option>
                             <option value="es">Español</option>
-                            <option value="de">Deutsch</option>
+                            <option value="kk">Kikongo</option>
                             {/* Add more languages as needed */}
                         </select>
                     </div>
