@@ -1,0 +1,353 @@
+.section {
+  background-color: #14151f;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  color: #00dc82;
+  margin-bottom: 2rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.5rem;
+}
+
+.table th {
+  text-align: left;
+  color: white;
+  padding: 0.5rem;
+  font-weight: bold;
+}
+
+.table td {
+  padding: 0.25rem 0.5rem;
+  background-color: #1e2029;
+}
+
+.input {
+  background-color: #2d2f3b;
+  border: 1px solid #3a3d4a;
+  color: #e4e4e4;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+.inputSmall {
+  width: 80px;
+}
+
+.deleteButton,
+.addButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin-left: 0.5rem;
+  color: #00dc82;
+}
+
+.saveButton {
+  background-color: #00dc82;
+  border: none;
+  color: #14151f;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.toggleInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggleInput:checked + .toggleSlider {
+  background-color: #00dc82;
+}
+
+.toggleInput:checked + .toggleSlider:before {
+  transform: translateX(24px);
+}
+
+.dayRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dayCheckbox {
+  margin-right: 1rem;
+}
+
+.timeSlots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeSlot {
+  display: flex;
+  align-items: center;
+}
+
+.noticePeriod {
+  margin-top: 1rem;
+}
+
+.noticePeriodSelect {
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+}
+.button:hover,
+.saveButton:hover {
+  background-color: #00b76b;
+}
+
+.descriptionInput {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+}
+.serviceTable .nameCell {
+  width: 60%;
+}
+.serviceTable .priceCell,
+.serviceTable .durationCell {
+  width: 20%;
+}
+
+.section > * {
+  margin-bottom: 1.5rem;
+}
+
+.section h2 {
+  margin-bottom: 1rem;
+  color: #00dc82;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.input::placeholder,
+.textarea::placeholder,
+.select::placeholder {
+  color: #989898;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  color: #000000;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.toggleContainer {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-right: 1rem;
+}
+
+.toggleLabel {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.toggleLabel:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggleInput:checked + .toggleLabel {
+  background-color: #00dc82;
+}
+
+.toggleInput:checked + .toggleLabel:before {
+  transform: translateX(26px);
+}
+
+.infoIcon {
+  margin-left: 5px;
+  cursor: help;
+  color: #00dc82;
+}
+
+.serviceTable,
+.promoTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.serviceTable th,
+.serviceTable td,
+.promoTable th,
+.promoTable td {
+  padding: 10px;
+  text-align: left;
+}
+
+.serviceTable .nameCell {
+  width: 50%;
+}
+
+.serviceTable .priceCell,
+.serviceTable .durationCell {
+  width: 20%;
+}
+
+.serviceTable .actionCell {
+  width: 10%;
+}
+
+.promoTable .codeCell {
+  width: 60%;
+}
+
+.promoTable .discountCell {
+  width: 30%;
+}
+
+.promoTable .actionCell {
+  width: 10%;
+}
+
+.smallTextarea {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+}
+/* Ajoutez ces styles pour les disponibilités */
+.dayInfo {
+  display: flex;
+  align-items: center;
+  width: 150px; /* Ajustez selon vos besoins */
+}
+
+.dayName {
+  margin-left: 10px;
+}
+
+.dayContent {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.unavailable {
+  margin-left: 20px;
+  color: #494848;
+}
+
+.slotActions {
+  display: flex;
+  align-items: center;
+  /* margin-left: 10px;*/
+  margin-left: auto;
+}
+
+/* Modifications pour les liens sociaux */
+.socialTable {
+  width: 100%;
+}
+
+.socialTable td {
+  vertical-align: middle;
+}
+
+/* Modifications pour les codes promo */
+.fullWidthInput {
+  width: 100%;
+}
+
+.smallInput {
+  width: 60px;
+}
+
+/* Style pour l'info-bulle 
+.infoIcon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #2196f3;
+  color: white;
+  font-size: 12px;
+  margin-left: 5px;
+  cursor: help;
+}
+*/
+
+/* Ajustez la taille des textarea pour le prix et la durée */
+.smallTextarea {
+  width: 60px;
+  resize: none;
+  overflow: hidden;
+}
+
+/* Style pour le toggle de visioconférence */
+.visioToggle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.visioToggle span {
+  margin-left: 10px;
+}
