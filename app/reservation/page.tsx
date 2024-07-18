@@ -5,85 +5,110 @@ import styles from "./reservation.module.css";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import Calendar from "./Calendar";
 
-// Données mockées
-const MOCK_ASTROLOGUES = [
-  {
-    id: 1,
-    name: "Nova Étoile",
-    avatar: "https://example.com/nova.jpg",
-    description:
-      "Expert en lecture de Natal Chart avec plus de 10 ans d'expérience. Spécialiste des thèmes complexes et des aspects rares.",
-    services: [
-      { id: 1, name: "Lecture de Natal Chart", price: 150, duration: 60 },
-      { id: 2, name: "Analyse Karmique", price: 200, duration: 90 },
-    ],
-    unavailableDates: ["2024-07-15", "2024-07-16", "2024-07-17"],
-    noticeDelay: 2,
-  },
-  {
-    id: 2,
-    name: "Céleste Lumière",
-    avatar: "https://example.com/celeste.jpg",
-    description:
-      "Spécialiste en astrologie karmique et prévisions à long terme. Experte en synastrie et compatibilité amoureuse.",
-    services: [
-      { id: 3, name: "Prévisions Annuelles", price: 180, duration: 75 },
-      { id: 4, name: "Analyse des Transits", price: 160, duration: 60 },
-    ],
-    unavailableDates: ["2024-07-20", "2024-07-21", "2024-07-22"],
-    noticeDelay: 7,
-  },
-];
-
 export default function Reservation() {
-  const [astrologues, setAstrologues] = useState(MOCK_ASTROLOGUES);
+  const [astrologues, setAstrologues] = useState([]);
   const [selectedAstrologue, setSelectedAstrologue] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [minDate, setMinDate] = useState(new Date());
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setAstrologues(MOCK_ASTROLOGUES);
-      setLoading(false);
-    }, 1000);
+    const fetchAstrologues = async () => {
+      try {
+        const response = await fetch("/api/astrologues", { method: "GET" });
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des astrologues");
+        }
+        const data = await response.json();
+        console.log("Données astrologues:", data);
+        setAstrologues(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des astrologues:", error);
+        setError("Erreur lors de la récupération des astrologues.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAstrologues();
 
     const today = new Date();
-    today.setDate(today.getDate() + 2); // Délai de prévenance par défaut
+    today.setDate(today.getDate() + 2); // Initialiser minDate par défaut
     setMinDate(today);
   }, []);
 
   const handleAstrologueSelect = (astrologue) => {
-    setSelectedAstrologue(astrologue);
+    console.log("Astrologue sélectionné:", astrologue);
+
+    const uniqueServices = Array.from(
+      new Set(astrologue.services.map((service) => service.id))
+    ).map((id) => astrologue.services.find((service) => service.id === id));
+
+    setSelectedAstrologue({
+      ...astrologue,
+      services: uniqueServices,
+       // unavailable_dates: Array.from(new Set(astrologue.unavailable_dates)), // Commenté car la table unavailable_dates n'existe pas actuellement
+      availabilities: Array.from(new Set(astrologue.availabilities)),
+    });
     setSelectedService(null);
 
     const newMinDate = new Date();
-    newMinDate.setDate(newMinDate.getDate() + astrologue.noticeDelay);
+    newMinDate.setDate(newMinDate.getDate() + astrologue.notice_delay);
     setMinDate(newMinDate);
 
     findNextAvailability(astrologue);
   };
 
   const findNextAvailability = (astrologue, startDate = new Date()) => {
-    let currentDate = new Date(Math.max(startDate, minDate));
-    while (true) {
-      if (
-        !astrologue.unavailableDates.includes(
-          currentDate.toISOString().split("T")[0],
-        )
-      ) {
-        setSelectedDate(currentDate);
-        setSelectedTime("09:00"); // Premier créneau disponible
-        break;
-      }
-      currentDate.setDate(currentDate.getDate() + 1);
+    if (isNaN(startDate.getTime())) {
+      startDate = new Date();
     }
+
+    let currentDate = new Date(Math.max(new Date(), startDate));
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 2); // Limite de 2 mois à l'avance
+
+    let attempts = 0;
+    const maxAttempts = 1000; // Limite de sécurité pour éviter les boucles infinies
+
+    while (attempts < maxAttempts) {
+      if (currentDate > maxDate) {
+        console.log("Aucune disponibilité trouvée avant la limite de 2 mois.");
+        return;
+      }
+
+      attempts++;
+      const dayOfWeek = currentDate.toLocaleDateString("en-US", { weekday: "long" });
+      const availability = astrologue.availabilities.find((av) => av.day === dayOfWeek);
+
+      if (availability && availability.slots.length > 0) {
+        const slots = availability.slots.split(","); // Assuming slots are stored as comma-separated values
+        for (const slot of slots) {
+          const [start, end] = slot.split("-");
+          const slotTime = new Date(currentDate);
+          const [hours, minutes] = start.split(":").map(Number);
+          slotTime.setHours(hours, minutes, 0, 0);
+
+          if (slotTime > new Date()) {
+            setSelectedDate(currentDate);
+            setSelectedTime(start);
+            console.log("Créneau disponible trouvé:", slotTime);
+            return;
+          }
+        }
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+      console.log("Pas de créneau disponible, prochaine date vérifiée:", currentDate);
+    }
+
+    console.error("Aucune disponibilité trouvée après", maxAttempts, "tentatives.");
   };
 
   const handleNextAvailability = () => {
@@ -98,12 +123,8 @@ export default function Reservation() {
   };
 
   const handleServiceSelect = (e) => {
+    console.log("Service sélectionné:", e.target.value);
     setSelectedService(e.target.value);
-  };
-
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
-    setSelectedTime(null);
   };
 
   const handleTimeSelect = (time) => {
@@ -131,10 +152,22 @@ export default function Reservation() {
       clientName,
       clientEmail,
     });
+
+    // Logic to handle the reservation
   };
 
   const renderTimeSlots = () => {
-    const timeSlots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
+    if (!selectedAstrologue || !selectedDate) return null;
+
+    const dayOfWeek = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
+    const availability = selectedAstrologue.availabilities.find((av) => av.day === dayOfWeek);
+
+    if (!availability) return <div>Aucun créneau disponible pour ce jour.</div>;
+
+    const timeSlots = [...new Set(availability.slots.split(","))];
+
+    console.log("Créneaux horaires disponibles pour", dayOfWeek, ":", timeSlots);
+
     return (
       <div className={styles.timeSlots}>
         {timeSlots.map((time) => (
@@ -150,6 +183,45 @@ export default function Reservation() {
     );
   };
 
+  const handleDateSelect = (date) => {
+    console.log("Date sélectionnée:", date);
+    console.log("Date minimale:", minDate);
+    setSelectedDate(date);
+    setSelectedTime(null);
+
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setMonth(today.getMonth() + 2); // Limite de 2 mois à l'avance
+
+    if (date < minDate) {
+      console.log("Date sélectionnée est en dessous du délai de prévenance.");
+      setTooltipMessage("Cette date est en dessous du délai de prévenance.");
+      console.log("Tooltip message mis à jour:", "Cette date est en dessous du délai de prévenance.");
+    } else if (date > maxDate) {
+      console.log("Date sélectionnée est au-delà de la limite de 2 mois.");
+      setTooltipMessage("Cette date est au-delà de la limite de 2 mois.");
+      console.log("Tooltip message mis à jour:", "Cette date est au-delà de la limite de 2 mois.");
+    } else {
+      console.log("Date sélectionnée est acceptable.");
+      setTooltipMessage("");
+      console.log("Tooltip message mis à jour:", "");
+    }
+
+    console.log("Tooltip message actuel:", tooltipMessage); // Ajout de ce log
+  };
+
+  const renderTooltip = () => {
+    console.log("Rendering tooltip with message:", tooltipMessage);
+    if (tooltipMessage) {
+      return (
+        <div className={styles.tooltip}>
+          {tooltipMessage}
+        </div>
+      );
+    }
+    return null;
+  };
+
   const sendConfirmationEmail = async (details) => {
     try {
       const response = await fetch("/api/send-confirmation", {
@@ -161,9 +233,7 @@ export default function Reservation() {
           name: clientName,
           email: clientEmail,
           astrologue: selectedAstrologue.name,
-          service: selectedAstrologue.services.find(
-            (s) => s.id === parseInt(selectedService),
-          ).name,
+          service: selectedAstrologue.services.find((s) => s.id === parseInt(selectedService)).name,
           date: selectedDate,
           time: selectedTime,
           orderId: details.id,
@@ -184,9 +254,7 @@ export default function Reservation() {
   if (error) return <div>Erreur: {error}</div>;
 
   return (
-    <PayPalScriptProvider
-      options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}
-    >
+    <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
       <div className={styles.container}>
         <h1 className={styles.title}>KintuniAI - Réservation et Paiement</h1>
         <form onSubmit={handleSubmit}>
@@ -195,9 +263,9 @@ export default function Reservation() {
               <div className={styles.section}>
                 <h2>Choisissez votre astrologue</h2>
                 <div className={styles.astrologueList}>
-                  {astrologues.map((astrologue) => (
+                  {Array.isArray(astrologues) && astrologues.map((astrologue, index) => (
                     <div
-                      key={astrologue.id}
+                      key={`${astrologue.id}-${index}`}
                       className={`${styles.astrologueCard} ${selectedAstrologue === astrologue ? styles.selected : ""}`}
                       onClick={() => handleAstrologueSelect(astrologue)}
                     >
@@ -216,7 +284,7 @@ export default function Reservation() {
                   ))}
                 </div>
               </div>
-
+  
               {selectedAstrologue && (
                 <div className={styles.section}>
                   <h2>Sélectionnez un service</h2>
@@ -226,42 +294,40 @@ export default function Reservation() {
                     className={styles.select}
                   >
                     <option value="">Choisissez un service</option>
-                    {selectedAstrologue.services.map((service) => (
-                      <option key={service.id} value={service.id}>
-                        {service.name} - {service.price}€ ({service.duration}{" "}
-                        min)
+                    {[...new Set(selectedAstrologue.services.map((service, index) => (
+                      <option key={`${selectedAstrologue.id}-${service.id}-${index}`} value={service.id}>
+                        {service.name} - {service.price}€ ({service.duration} min)
                       </option>
-                    ))}
+                    )))]}
                   </select>
                 </div>
               )}
             </div>
-
+  
             <div className={styles.rightColumn}>
-              <div className={styles.section}>
-                <h2>Sélectionnez une date et une heure</h2>
-                <Calendar
-                  onSelectDate={handleDateSelect}
-                  selectedDate={selectedDate}
-                  unavailableDates={
-                    selectedAstrologue
-                      ? selectedAstrologue.unavailableDates
-                      : []
-                  }
-                  minDate={minDate}
-                />
-                {selectedDate && renderTimeSlots()}
-                <button
-                  type="button"
-                  className={styles.nextAvailabilityButton}
-                  onClick={handleNextAvailability}
-                >
-                  Prochaine disponibilité
-                </button>
-              </div>
+              {selectedAstrologue && (
+                <div className={styles.section}>
+                  <h2>Sélectionnez une date et une heure</h2>
+                  <Calendar
+                    onSelectDate={handleDateSelect}
+                    selectedDate={selectedDate}
+                    unavailableDates={[]} // Enlever la référence à selectedAstrologue.unavailable_dates
+                    minDate={minDate}
+                  />
+                  {renderTooltip()}
+                  {selectedDate && renderTimeSlots()}
+                  <button
+                    type="button"
+                    className={styles.nextAvailabilityButton}
+                    onClick={handleNextAvailability}
+                  >
+                    Prochaine disponibilité
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-
+  
           <div className={styles.bottomSection}>
             <div className={styles.section}>
               <h2>Vos informations</h2>
@@ -282,7 +348,7 @@ export default function Reservation() {
                 className={styles.input}
               />
             </div>
-
+  
             {selectedAstrologue &&
               selectedService &&
               selectedDate &&
@@ -293,37 +359,40 @@ export default function Reservation() {
                     Total à payer :{" "}
                     {
                       selectedAstrologue.services.find(
-                        (s) => s.id === parseInt(selectedService),
+                        (s) => s.id === parseInt(selectedService)
                       ).price
                     }
                     €
                   </p>
-                  <PayPalButtons
-                    createOrder={(data, actions) => {
-                      return actions.order.create({
-                        purchase_units: [
-                          {
-                            amount: {
-                              value: selectedAstrologue.services
-                                .find((s) => s.id === parseInt(selectedService))
-                                .price.toString(),
+                  <div className={styles.paypalButtonContainer}>
+                    <PayPalButtons
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: selectedAstrologue.services
+                                  .find((s) => s.id === parseInt(selectedService))
+                                  .price.toString(),
+                              },
                             },
-                          },
-                        ],
-                      });
-                    }}
-                    onApprove={(data, actions) => {
-                      return actions.order.capture().then((details) => {
-                        console.log("Paiement approuvé", details);
-                        sendConfirmationEmail(details);
-                        // Redirection vers la page de confirmation
-                        window.location.href = "/confirmation";
-                      });
-                    }}
-                  />
+                          ],
+                        });
+                      }}
+                      onApprove={(data, actions) => {
+                        return actions.order.capture().then((details) => {
+                          console.log("Paiement approuvé", details);
+                          sendConfirmationEmail(details);
+                          // Redirection vers la page de confirmation
+                          window.location.href = "/confirmation";
+                        });
+                      }}
+                      className={styles.paypalButton}
+                    />
+                  </div>
                 </div>
               )}
-
+  
             <button type="submit" className={styles.submitButton}>
               <img
                 src="/paypal-icon.png"

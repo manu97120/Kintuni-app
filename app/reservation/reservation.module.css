@@ -21,10 +21,6 @@
   flex: 1;
 }
 
-.section {
-  margin-bottom: 2rem;
-}
-
 .astrologueList {
   display: flex;
   flex-direction: column;
@@ -123,9 +119,6 @@
   cursor: pointer;
 }
 
-.bottomSection {
-  margin-top: 2rem;
-}
 
 .totalPrice {
   font-size: 1.2rem;
@@ -156,4 +149,51 @@
   width: 20px;
   height: 20px;
   margin-right: 0.5rem;
+}
+
+
+.tooltip {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.5rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.bottomSection {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center; /* Centre la section horizontalement */
+  flex-direction: column; /* Alignement vertical des éléments */
+  align-items: center; /* Centre les éléments horizontalement */
+}
+
+.section {
+  margin-bottom: 2rem;
+  width: 80%; /* Réduit la largeur de la section */
+  max-width: 500px; /* Limite la largeur maximale de la section */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paypalButtonContainer {
+  width: 40%; /* Prend toute la largeur du parent */
+}
+
+.paypalButton {
+  width: 40%; /* Prend toute la largeur du parent */
+  padding: 0.5rem;
+  background-color: #50248f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-align: center; /* Centre le texte dans le bouton */
+}
+
+.paypalButton:hover {
+  background-color: #3c1b6b;
 }
