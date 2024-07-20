@@ -1,4 +1,4 @@
-import HoroForm from '@/app/ui/horoForm'
+import HoroForm from '@/app/api/Landing'
 export const dynamic = "force-dynamic";
 
 export default function HoroscopePage({
